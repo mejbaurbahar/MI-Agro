@@ -81,8 +81,8 @@ export default function Home() {
 
       {/* Product Categories Section */}
       <section className="py-12 bg-white">
-        <div className="max-w-5xl mx-auto px-4 sm:px-6 lg:px-8">
-          <div className="grid grid-cols-1 md:grid-cols-2 gap-8">
+        <div className="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8">
+          <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
             {/* Poultry Feed */}
             <div className="relative group overflow-hidden rounded-lg border-4 border-[#003399] shadow-2xl">
               <div className="bg-[#003399] text-white py-3 text-center font-black text-xl uppercase tracking-widest">
@@ -98,6 +98,25 @@ export default function Home() {
               <div className="absolute bottom-4 left-1/2 -translate-x-1/2 w-[80%]">
                 <Link to="/products/poultry" className="block w-full bg-[#003399] text-white py-2 text-center font-bold rounded shadow-lg hover:bg-[#002277] transition-colors">
                   {t('products.viewPoultry')}
+                </Link>
+              </div>
+            </div>
+
+            {/* Sonali Feed */}
+            <div className="relative group overflow-hidden rounded-lg border-4 border-[#4a7c00] shadow-2xl">
+              <div className="bg-[#4a7c00] text-white py-3 text-center font-black text-xl uppercase tracking-widest">
+                {t('products.sonaliTitle')}
+              </div>
+              <div className="aspect-video overflow-hidden">
+                <img
+                  src="/products/sonali-starter.png"
+                  alt="Sonali"
+                  className="w-full h-full object-cover"
+                />
+              </div>
+              <div className="absolute bottom-4 left-1/2 -translate-x-1/2 w-[80%]">
+                <Link to="/products/sonali" className="block w-full bg-[#4a7c00] text-white py-2 text-center font-bold rounded shadow-lg hover:bg-[#3a6100] transition-colors">
+                  {t('products.viewSonali')}
                 </Link>
               </div>
             </div>
@@ -197,7 +216,7 @@ export default function Home() {
               <h2 className="text-3xl md:text-5xl font-black text-slate-900 mb-4">{t('products.title')}</h2>
               <p className="text-slate-600 text-sm md:text-base">{t('products.desc')}</p>
             </div>
-            <Link to="/contact" className="text-orange-500 font-bold flex items-center gap-2 hover:gap-3 transition-all text-sm md:text-base">
+            <Link to="/products/all" className="text-orange-500 font-bold flex items-center gap-2 hover:gap-3 transition-all text-sm md:text-base">
               {t('products.viewAll')} <ArrowRight size={20} />
             </Link>
           </div>

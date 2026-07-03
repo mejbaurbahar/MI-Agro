@@ -9,9 +9,12 @@ export default function ProductsPage() {
   const { category } = useParams<{ category: string }>();
   const { t, language } = useLanguage();
 
-  const filteredProducts = products.filter(p => p.category === category);
-  
-  const titleKey = category === 'poultry' ? 'products.poultry' : 'products.cattle';
+  const filteredProducts = category === 'all' ? products : products.filter(p => p.category === category);
+
+  const titleKey = category === 'poultry' ? 'products.poultry'
+    : category === 'sonali' ? 'products.sonali'
+    : category === 'cattle' ? 'products.cattle'
+    : 'products.title';
 
   return (
     <div className="pt-24 pb-16 bg-slate-50 min-h-screen">

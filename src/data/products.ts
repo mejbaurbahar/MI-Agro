@@ -14,7 +14,7 @@ export interface ProductContent {
 
 export interface Product {
   id: string;
-  category: 'poultry' | 'cattle';
+  category: 'poultry' | 'cattle' | 'sonali';
   color: string;
   en: ProductContent;
   bn: ProductContent;
@@ -249,6 +249,160 @@ export const products: Product[] = [
         'Liver Tonic + Betaine → Lower Sudden Mortality',
         'Maximum Nutrient Utilization',
         'Market-Ready Compact Body',
+      ]
+    }
+  },
+  {
+    id: 'sonali-starter',
+    category: 'sonali',
+    color: 'from-yellow-300 to-green-500',
+    bn: {
+      name: 'SONALI STARTER FEED',
+      tagline: 'সোনালী মুরগির শক্তিশালী শুরুর জন্য আদর্শ পুষ্টি।',
+      phase: 'স্টার্টার ফেজ',
+      duration: '১–১৮ দিন',
+      bagSize: '৫০ কেজি ব্যাগ',
+      description: 'SONALI STARTER FEED সোনালী মুরগির প্রথম ১৮ দিনের জন্য বিশেষভাবে তৈরি। এই সময়কালে সঠিক পুষ্টি, শক্তিশালী ইমিউনিটি এবং উন্নত হজম ক্ষমতা নিশ্চিত করা হয়।',
+      highlights: [
+        { icon: 'Zap', text: 'দ্রুত বৃদ্ধি' },
+        { icon: 'ShieldCheck', text: 'রোগ প্রতিরোধ ক্ষমতা' },
+        { icon: 'TrendingUp', text: 'উন্নত FCR' },
+      ],
+      characteristics: [
+        { label: 'রং', value: 'হালকা হলুদ-বাদামি' },
+        { label: 'ঘ্রাণ', value: 'তাজা ও পরিষ্কার' },
+        { label: 'পালাটেবিলিটি', value: 'অত্যন্ত ভালো' },
+        { label: 'ডাস্ট লেভেল', value: 'কম' },
+      ],
+      performance: [
+        { label: '১৮ দিনে ওজন', value: '৩৫০ – ৪০০ গ্রাম' },
+        { label: 'প্রত্যাশিত FCR', value: '১.৩০ – ১.৪০' },
+        { label: 'স্বাস্থ্য', value: 'শক্তিশালী গাট হেলথ' },
+      ],
+      nutritional: [
+        { label: 'Crude Protein', value: '~২১.০ – ২২.০%' },
+        { label: 'Crude Fat', value: '~৬.০ – ৬.৫%' },
+        { label: 'Metabolizable Energy', value: 'Balanced' },
+        { label: 'Calcium', value: '~০.৯০ – ১.০০%' },
+      ],
+      advantages: [
+        'উচ্চমানের প্রোটিন উৎস',
+        'উন্নত অ্যামিনো এসিড ব্যালেন্স',
+        'এনজাইম + প্রোবায়োটিক সিস্টেম',
+        'হিট স্ট্রেস সুরক্ষা',
+      ]
+    },
+    en: {
+      name: 'SONALI STARTER FEED',
+      tagline: 'Ideal nutrition for a strong start for Sonali chickens.',
+      phase: 'Starter Phase',
+      duration: '1–18 Days',
+      bagSize: '50 kg Bag',
+      description: 'SONALI STARTER FEED is specially formulated for the first 18 days of Sonali chickens. Proper nutrition, strong immunity, and improved digestion are ensured during this period.',
+      highlights: [
+        { icon: 'Zap', text: 'Fast Growth' },
+        { icon: 'ShieldCheck', text: 'Disease Resistance' },
+        { icon: 'TrendingUp', text: 'Improved FCR' },
+      ],
+      characteristics: [
+        { label: 'Color', value: 'Light Yellow-Brown' },
+        { label: 'Smell', value: 'Fresh & Clean' },
+        { label: 'Palatability', value: 'Excellent' },
+        { label: 'Dust Level', value: 'Low' },
+      ],
+      performance: [
+        { label: 'Weight at 18 Days', value: '350 – 400 grams' },
+        { label: 'Expected FCR', value: '1.30 – 1.40' },
+        { label: 'Health', value: 'Strong Gut Health' },
+      ],
+      nutritional: [
+        { label: 'Crude Protein', value: '~21.0 – 22.0%' },
+        { label: 'Crude Fat', value: '~6.0 – 6.5%' },
+        { label: 'Metabolizable Energy', value: 'Balanced' },
+        { label: 'Calcium', value: '~0.90 – 1.00%' },
+      ],
+      advantages: [
+        'High Quality Protein Sources',
+        'Advanced Amino Acid Balance',
+        'Enzyme + Probiotic System',
+        'Heat Stress Protection',
+      ]
+    }
+  },
+  {
+    id: 'sonali-grower',
+    category: 'sonali',
+    color: 'from-lime-400 to-green-600',
+    bn: {
+      name: 'SONALI GROWER FEED',
+      tagline: 'সোনালী মুরগির দ্রুত বৃদ্ধি ও উন্নত লাভের জন্য।',
+      phase: 'গ্রোয়ার ফেজ',
+      duration: '১৯–৪৫ দিন',
+      bagSize: '৫০ কেজি ব্যাগ',
+      description: 'SONALI GROWER FEED সোনালী মুরগির দ্রুত গ্রোথ ফেজ (১৯–৪৫ দিন) লক্ষ্য করে তৈরি। এই পর্যায়ে মাংসের ফ্রেম ডেভেলপমেন্ট এবং পায়ের শক্তি নির্ধারিত হয়।',
+      highlights: [
+        { icon: 'Zap', text: 'দ্রুত গ্রোথ' },
+        { icon: 'ShieldCheck', text: 'শক্ত ফ্রেম' },
+        { icon: 'TrendingUp', text: 'বেশি লাভ' },
+      ],
+      characteristics: [
+        { label: 'রং', value: 'প্রাকৃতিক হলুদ-বাদামি' },
+        { label: 'ঘ্রাণ', value: 'তাজা ও পরিষ্কার' },
+        { label: 'Texture', value: 'ঝরঝরে, কম ডাস্ট' },
+        { label: 'Moisture', value: '≤১১%' },
+      ],
+      performance: [
+        { label: '৪৫ দিনে ওজন', value: '১.৫০ – ১.৮০ কেজি' },
+        { label: 'প্রত্যাশিত FCR', value: '২.২০ – ২.৫০' },
+        { label: 'মৃত্যু হার', value: '১.০% – ২.০%' },
+      ],
+      nutritional: [
+        { label: 'Crude Protein', value: '~১৯.০ – ২০.০%' },
+        { label: 'Crude Fat', value: '~৭.০ – ৭.৫%' },
+        { label: 'Metabolizable Energy', value: '~২৯০০ – ৩০০০ kcal/kg' },
+        { label: 'Lysine', value: 'পেশী বৃদ্ধির জন্য' },
+      ],
+      advantages: [
+        'উন্নত পেশী গঠন',
+        'এনজাইম + প্রোবায়োটিক সিস্টেম',
+        'ধারাবাহিক পারফরম্যান্স',
+        'কম মৃত্যু হার',
+      ]
+    },
+    en: {
+      name: 'SONALI GROWER FEED',
+      tagline: 'For rapid growth and better profit of Sonali chickens.',
+      phase: 'Grower Phase',
+      duration: '19–45 Days',
+      bagSize: '50 kg Bag',
+      description: 'SONALI GROWER FEED is formulated targeting the rapid growth phase (19–45 days) of Sonali chickens. Frame development and leg strength are determined at this stage.',
+      highlights: [
+        { icon: 'Zap', text: 'Rapid Growth' },
+        { icon: 'ShieldCheck', text: 'Strong Frame' },
+        { icon: 'TrendingUp', text: 'Better Profit' },
+      ],
+      characteristics: [
+        { label: 'Color', value: 'Natural Yellow-Brown' },
+        { label: 'Smell', value: 'Fresh & Clean' },
+        { label: 'Texture', value: 'Crisp, Low Dust' },
+        { label: 'Moisture', value: '≤11%' },
+      ],
+      performance: [
+        { label: 'Weight at 45 Days', value: '1.50 – 1.80 kg' },
+        { label: 'Expected FCR', value: '2.20 – 2.50' },
+        { label: 'Mortality Rate', value: '1.0% – 2.0%' },
+      ],
+      nutritional: [
+        { label: 'Crude Protein', value: '~19.0 – 20.0%' },
+        { label: 'Crude Fat', value: '~7.0 – 7.5%' },
+        { label: 'Metabolizable Energy', value: '~2900 – 3000 kcal/kg' },
+        { label: 'Lysine', value: 'For muscle accretion' },
+      ],
+      advantages: [
+        'Better Muscle Deposition',
+        'Enzyme + Probiotic System',
+        'Consistent Performance',
+        'Low Mortality Rate',
       ]
     }
   },
