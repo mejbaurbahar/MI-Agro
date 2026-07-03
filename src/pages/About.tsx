@@ -1,7 +1,7 @@
 import { motion } from 'motion/react';
 import { Helmet } from 'react-helmet-async';
 import { useLanguage } from '../context/LanguageContext';
-import { ShieldCheck, Target, Users } from 'lucide-react';
+import { ShieldCheck, Target, Users, Mail } from 'lucide-react';
 
 export default function About() {
   const { t } = useLanguage();
@@ -70,6 +70,51 @@ export default function About() {
                 </div>
               </div>
             </div>
+          </div>
+        </div>
+      </section>
+
+      {/* Contact section */}
+      <section className="py-16 bg-slate-50 border-t border-slate-200">
+        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+          <motion.div
+            initial={{ opacity: 0, y: 20 }}
+            whileInView={{ opacity: 1, y: 0 }}
+            viewport={{ once: true }}
+            className="text-center mb-12"
+          >
+            <h2 className="text-3xl md:text-5xl font-black text-[#003300] uppercase tracking-tight mb-4">
+              {t('about.contactTitle') || 'Contact Our Team'}
+            </h2>
+            <p className="text-slate-600 font-medium max-w-xl mx-auto">
+              {t('about.contactDesc') || 'Reach the right person directly using our official company email addresses.'}
+            </p>
+          </motion.div>
+
+          <div className="grid grid-cols-1 sm:grid-cols-3 gap-6 max-w-4xl mx-auto">
+            {[
+              { label: 'General Inquiries', role: 'Info', email: 'info@miunifyldagroltd.com' },
+              { label: 'Managing Director', role: 'MD', email: 'md@miunifyldagroltd.com' },
+              { label: 'Chairman', role: 'Chairman', email: 'chairman@miunifyldagroltd.com' },
+            ].map(({ label, role, email }) => (
+              <motion.a
+                key={email}
+                href={`mailto:${email}`}
+                initial={{ opacity: 0, y: 16 }}
+                whileInView={{ opacity: 1, y: 0 }}
+                viewport={{ once: true }}
+                className="group flex flex-col items-center gap-4 bg-white p-8 rounded-2xl shadow-sm border border-slate-200 hover:border-[#003300] hover:shadow-md transition-all"
+              >
+                <div className="w-14 h-14 bg-[#003300] rounded-full flex items-center justify-center text-yellow-400 shadow-lg group-hover:scale-110 transition-transform">
+                  <Mail size={24} />
+                </div>
+                <div className="text-center">
+                  <p className="text-[10px] font-black text-slate-400 uppercase tracking-widest mb-1">{label}</p>
+                  <p className="text-xs font-black text-[#003300] uppercase tracking-wider mb-3">{role}</p>
+                  <p className="text-sm font-bold text-orange-600 group-hover:text-orange-700 break-all">{email}</p>
+                </div>
+              </motion.a>
+            ))}
           </div>
         </div>
       </section>

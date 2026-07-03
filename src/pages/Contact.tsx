@@ -88,7 +88,9 @@ export default function Contact() {
                     </div>
                     <div>
                       <p className="text-xs md:text-sm font-black text-slate-400 uppercase tracking-widest mb-1">{t('contact.email')}</p>
-                      <p className="text-sm md:text-base text-[#003300] font-black">miunifyldagroltd@gmail.com</p>
+                      <a href="mailto:info@miunifyldagroltd.com" className="block text-sm md:text-base text-[#003300] font-black hover:text-orange-600 transition-colors">info@miunifyldagroltd.com</a>
+                      <a href="mailto:md@miunifyldagroltd.com" className="block text-sm md:text-base text-[#003300] font-black hover:text-orange-600 transition-colors">md@miunifyldagroltd.com</a>
+                      <a href="mailto:chairman@miunifyldagroltd.com" className="block text-sm md:text-base text-[#003300] font-black hover:text-orange-600 transition-colors">chairman@miunifyldagroltd.com</a>
                     </div>
                   </div>
                 </div>

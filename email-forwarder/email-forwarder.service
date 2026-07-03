@@ -1,0 +1,25 @@
+[Unit]
+Description=MI UNIFYLD AGRO LTD Email Forwarder
+After=network.target
+Wants=network-online.target
+
+[Service]
+Type=simple
+User=emailfwd
+WorkingDirectory=/opt/mi-agro-forwarder
+EnvironmentFile=/opt/mi-agro-forwarder/.env
+ExecStart=/opt/mi-agro-forwarder/venv/bin/python forwarder.py
+Restart=always
+RestartSec=10
+StandardOutput=journal
+StandardError=journal
+
+# Hardening
+NoNewPrivileges=true
+ProtectSystem=strict
+ProtectHome=true
+PrivateTmp=true
+ReadWritePaths=/opt/mi-agro-forwarder/logs
+
+[Install]
+WantedBy=multi-user.target

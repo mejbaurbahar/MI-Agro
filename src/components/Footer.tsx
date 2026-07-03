@@ -71,9 +71,17 @@ export default function Footer() {
                   <span>+880 1897 789766</span>
                 </div>
               </li>
-              <li className="flex items-center gap-3">
-                <Mail size={18} className="text-orange-500 shrink-0" />
-                <span>miunifyldagroltd@gmail.com</span>
+              <li className="flex flex-col gap-2">
+                <div className="flex items-center gap-3">
+                  <Mail size={18} className="text-orange-500 shrink-0" />
+                  <a href="mailto:info@miunifyldagroltd.com" className="hover:text-orange-500 transition-colors">info@miunifyldagroltd.com</a>
+                </div>
+                <div className="flex items-center gap-3 ml-7">
+                  <a href="mailto:md@miunifyldagroltd.com" className="hover:text-orange-500 transition-colors">md@miunifyldagroltd.com</a>
+                </div>
+                <div className="flex items-center gap-3 ml-7">
+                  <a href="mailto:chairman@miunifyldagroltd.com" className="hover:text-orange-500 transition-colors">chairman@miunifyldagroltd.com</a>
+                </div>
               </li>
             </ul>
           </div>

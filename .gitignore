@@ -6,3 +6,6 @@ coverage/
 *.log
 .env*
 !.env.example
+email-forwarder/logs/
+__pycache__/
+*.pyc
