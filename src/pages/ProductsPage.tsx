@@ -40,18 +40,10 @@ export default function ProductsPage() {
               >
                 <Link to={`/product/${product.id}`} className="relative aspect-[4/5] overflow-hidden block">
                   <div className={`absolute inset-0 bg-gradient-to-br ${product.color} opacity-10 group-hover:opacity-20 transition-opacity`} />
-                  <img 
-                    src={product.id === 'starter' 
-                      ? "https://images.unsplash.com/photo-1548550023-2bdb3c5beed7?auto=format&fit=crop&q=80&w=600"
-                      : product.id === 'grower'
-                      ? "https://images.unsplash.com/photo-1500595046743-cd271d694d30?auto=format&fit=crop&q=80&w=600"
-                      : product.id === 'sweet-bran'
-                      ? "https://images.unsplash.com/photo-1516467508483-a7212febe31a?auto=format&fit=crop&q=80&w=600"
-                      : "https://images.unsplash.com/photo-1524024973431-2ad916746881?auto=format&fit=crop&q=80&w=600"
-                    } 
+                  <img
+                    src={`/products/${product.id}.png`}
                     alt={product[language].name}
                     className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-700"
-                    referrerPolicy="no-referrer"
                   />
                   <div className="absolute top-4 left-4">
                     <span className="bg-white/90 backdrop-blur-md text-slate-900 px-4 py-1.5 rounded-full text-xs font-black uppercase tracking-widest shadow-sm">

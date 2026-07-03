@@ -32,16 +32,7 @@ export default function Navbar() {
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
         <div className="flex justify-between items-center">
           <Link to="/" className="flex items-center gap-3">
-            <div className="relative w-12 h-12 flex items-center justify-center">
-              <div className="absolute inset-0 bg-gradient-to-tr from-green-600 via-yellow-500 to-green-400 rounded-full blur-[1px]" />
-              <div className="relative bg-white w-10 h-10 rounded-full flex items-center justify-center text-[#003300] font-black text-2xl shadow-inner">
-                U
-              </div>
-            </div>
-            <div className="flex flex-col">
-              <span className="font-black text-xl leading-none text-white tracking-tight">MI UNIFYLD</span>
-              <span className="text-[10px] uppercase tracking-[0.2em] text-yellow-500 font-bold">Agro Ltd</span>
-            </div>
+            <img src="/products/logo.png" alt="MI UNIFYLD AGRO LTD Logo" className="h-12 w-auto object-contain" />
           </Link>
 
           {/* Desktop Nav */}
@@ -111,7 +102,7 @@ export default function Navbar() {
                 <a href="tel:+8801817875139" className="flex items-center justify-center gap-2 bg-orange-500 text-white py-3 rounded-xl font-bold">
                   <Phone size={20} /> {t('nav.callNow')}
                 </a>
-                <a href="mailto:miunifyldagroltd@gmail.com" className="flex items-center justify-center gap-2 bg-slate-100 text-slate-700 py-3 rounded-xl font-bold">
+                <a href="mailto:info@miunifyldagroltd.com" className="flex items-center justify-center gap-2 bg-slate-100 text-slate-700 py-3 rounded-xl font-bold">
                   <Mail size={20} /> {t('nav.emailUs')}
                 </a>
               </div>

@@ -42,13 +42,7 @@ export default function ProductDetails() {
 
   const content = product[language];
 
-  const productImage = product.id === 'starter' 
-    ? "https://images.unsplash.com/photo-1548550023-2bdb3c5beed7?auto=format&fit=crop&q=80&w=800"
-    : product.id === 'grower'
-    ? "https://images.unsplash.com/photo-1500595046743-cd271d694d30?auto=format&fit=crop&q=80&w=800" // Cow
-    : product.id === 'sweet-bran'
-    ? "https://images.unsplash.com/photo-1516467508483-a7212febe31a?auto=format&fit=crop&q=80&w=800" // Cattle Feed
-    : "https://images.unsplash.com/photo-1524024973431-2ad916746881?auto=format&fit=crop&q=80&w=800"; // Goat
+  const productImage = `/products/${product.id}.png`;
 
   return (
     <div className="pt-20 pb-20 md:pb-24 bg-slate-50">
