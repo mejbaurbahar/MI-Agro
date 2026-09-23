@@ -16,6 +16,7 @@ export interface Product {
   id: string;
   category: 'poultry' | 'cattle' | 'sonali';
   color: string;
+  price: number | null; // Price in BDT (Taka), null if excluded/call for price
   en: ProductContent;
   bn: ProductContent;
 }
@@ -25,6 +26,7 @@ export const products: Product[] = [
     id: 'starter',
     category: 'poultry',
     color: 'from-yellow-400 to-orange-500',
+    price: 3782.50,
     bn: {
       name: 'SUPER BROILER STARTER FEED',
       tagline: 'ব্রয়লার খামারের লাভজনক শুরুর জন্য একটি শক্তিশালী ও সুস্থ শুরু।',
@@ -102,6 +104,7 @@ export const products: Product[] = [
     id: 'grower',
     category: 'poultry',
     color: 'from-green-400 to-emerald-600',
+    price: 3782.50,
     bn: {
       name: 'SUPER BROILER GROWER FEED',
       tagline: 'দ্রুত বৃদ্ধি, শক্তিশালী ফ্রেম এবং উন্নত লাভ।',
@@ -179,6 +182,7 @@ export const products: Product[] = [
     id: 'finisher',
     category: 'poultry',
     color: 'from-blue-400 to-indigo-600',
+    price: 3770.50,
     bn: {
       name: 'SUPER BROILER FINISHER FEED',
       tagline: 'নিখুঁত ফিনিশ, উন্নত ওজন, উচ্চতর লাভ।',
@@ -256,6 +260,7 @@ export const products: Product[] = [
     id: 'sonali-starter',
     category: 'sonali',
     color: 'from-yellow-300 to-green-500',
+    price: 3402.50,
     bn: {
       name: 'SONALI STARTER FEED',
       tagline: 'সোনালী মুরগির শক্তিশালী শুরুর জন্য আদর্শ পুষ্টি।',
@@ -333,6 +338,7 @@ export const products: Product[] = [
     id: 'sonali-grower',
     category: 'sonali',
     color: 'from-lime-400 to-green-600',
+    price: 3377.50,
     bn: {
       name: 'SONALI GROWER FEED',
       tagline: 'সোনালী মুরগির দ্রুত বৃদ্ধি ও উন্নত লাভের জন্য।',
@@ -410,6 +416,7 @@ export const products: Product[] = [
     id: 'sweet-bran',
     category: 'cattle',
     color: 'from-orange-400 to-red-600',
+    price: null,
     bn: {
       name: 'PREMIUM SWEET BRAN',
       tagline: '“PREMIUM SWEET BRAN – More Intake, More Milk, More Profit.”',
@@ -480,6 +487,84 @@ export const products: Product[] = [
         'Essential Oil → Digestion & Gas Control',
         'Live Yeast + Probiotic → Rumen pH Balance',
         'Molasses + Sweet Flavour → Higher Feed Intake',
+      ]
+    }
+  },
+  {
+    id: 'layer-1',
+    category: 'poultry',
+    color: 'from-amber-500 to-rose-600',
+    price: 3017.50,
+    bn: {
+      name: 'SUPER LAYER-1 FEED',
+      tagline: 'লেয়ার মুরগির সর্বোচ্চ ডিম উৎপাদন ও খোসার সুস্থতার জন্য আদর্শ পুষ্টি।',
+      phase: 'লেয়ার ফেজ ১',
+      duration: 'ডিম পাড়ার শুরু থেকে',
+      bagSize: '৫০ কেজি ব্যাগ',
+      description: 'SUPER LAYER-1 FEED বিশেষভাবে বাণিজ্যিক লেয়ার মুরগির ডিম পাড়ার প্রথম পর্যায়ের জন্য বৈজ্ঞানিকভাবে তৈরি। সঠিক প্রোটিন, পর্যাপ্ত ক্যালসিয়াম ও ফসফরাসের নিখুঁত অনুপাত দীর্ঘস্থায়ী ডিমের উৎপাদন হার এবং মজবুত, মসৃণ ডিমের খোসা নিশ্চিত করে।',
+      highlights: [
+        { icon: 'Zap', text: 'সর্বোচ্চ ডিম উৎপাদন' },
+        { icon: 'ShieldCheck', text: 'মজবুত খোসা' },
+        { icon: 'TrendingUp', text: 'উন্নত FCR' },
+      ],
+      characteristics: [
+        { label: 'রং', value: 'প্রাকৃতিক হালকা সোনালী-হলুদ' },
+        { label: 'ফর্ম', value: 'ম্যাশ / ক্রাম্বল' },
+        { label: 'ঘ্রাণ', value: 'তাজা ও পরিষ্কার' },
+        { label: 'Moisture', value: '≤১১% (নিয়ন্ত্রিত)' },
+      ],
+      performance: [
+        { label: 'ডিম উৎপাদন হার', value: 'পিক প্রোডাকশন ৯০%+' },
+        { label: 'ডিমের সাইজ', value: 'আদর্শ ও সুষম ওজন' },
+        { label: 'খোসার শক্তি', value: 'শক্ত ও টেকসই' },
+      ],
+      nutritional: [
+        { label: 'Crude Protein', value: '~১৭.৫ – ১৮.০%' },
+        { label: 'Crude Fat', value: '~৩.৫ – ৪.০%' },
+        { label: 'Calcium', value: '~৩.৬০ – ৩.৮০%' },
+        { label: 'Available Phosphorus', value: '~০.৪৫ – ০.৫০%' },
+      ],
+      advantages: [
+        'উচ্চমানের ক্যালসিয়াম ও ফসফরাস ব্যালেন্স',
+        'উন্নত ডিমের কুসুম ও খোসার গুণমান',
+        'এনজাইম + প্রি-বায়োটিক গাট প্রোটেকশন',
+        'দীর্ঘমেয়াদী ডিম উৎপাদন স্থায়িত্ব',
+      ]
+    },
+    en: {
+      name: 'SUPER LAYER-1 FEED',
+      tagline: 'Ideal nutrition for peak egg production and optimal shell quality.',
+      phase: 'Layer Phase 1',
+      duration: 'Onset of laying',
+      bagSize: '50 kg Bag',
+      description: 'SUPER LAYER-1 FEED is scientifically formulated for the initial laying phase of commercial layer chickens. Balanced protein, optimal calcium, and available phosphorus ensure high laying persistence and superior eggshell strength.',
+      highlights: [
+        { icon: 'Zap', text: 'Peak Egg Production' },
+        { icon: 'ShieldCheck', text: 'Strong Shell Quality' },
+        { icon: 'TrendingUp', text: 'Better FCR' },
+      ],
+      characteristics: [
+        { label: 'Color', value: 'Natural Golden-Yellow' },
+        { label: 'Form', value: 'Mash / Crumble' },
+        { label: 'Smell', value: 'Fresh & Clean' },
+        { label: 'Moisture', value: '≤11% (Controlled)' },
+      ],
+      performance: [
+        { label: 'Egg Laying Rate', value: 'Peak Production 90%+' },
+        { label: 'Egg Size', value: 'Uniform & Standard Weight' },
+        { label: 'Shell Strength', value: 'Strong & Crack-Resistant' },
+      ],
+      nutritional: [
+        { label: 'Crude Protein', value: '~17.5 – 18.0%' },
+        { label: 'Crude Fat', value: '~3.5 – 4.0%' },
+        { label: 'Calcium', value: '~3.60 – 3.80%' },
+        { label: 'Available Phosphorus', value: '~0.45 – 0.50%' },
+      ],
+      advantages: [
+        'Optimized Calcium & Phosphorus ratio',
+        'Better Yolk & Shell Quality',
+        'Enzyme + Prebiotic Gut Protection',
+        'Sustained Peak Laying Period',
       ]
     }
   }

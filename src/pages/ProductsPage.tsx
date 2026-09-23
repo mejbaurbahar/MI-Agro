@@ -1,20 +1,30 @@
-import { useParams, Link } from 'react-router-dom';
+import { useParams, Link, useNavigate } from 'react-router-dom';
 import { Helmet } from 'react-helmet-async';
 import { motion } from 'motion/react';
-import { ArrowRight, Eye, Phone } from 'lucide-react';
+import { Eye, ShoppingBag, Zap } from 'lucide-react';
 import { useLanguage } from '../context/LanguageContext';
+import { useCart } from '../context/CartContext';
 import { products } from '../data/products';
 
 export default function ProductsPage() {
   const { category } = useParams<{ category: string }>();
   const { t, language } = useLanguage();
+  const { addToCart, formatPrice } = useCart();
+  const navigate = useNavigate();
 
-  const filteredProducts = category === 'all' ? products : products.filter(p => p.category === category);
+  const filteredProducts = category === 'all' 
+    ? products 
+    : products.filter(p => p.category === category);
 
   const titleKey = category === 'poultry' ? 'products.poultry'
     : category === 'sonali' ? 'products.sonali'
     : category === 'cattle' ? 'products.cattle'
     : 'products.title';
+
+  const handleDirectOrder = (product: typeof products[0]) => {
+    addToCart(product, 1);
+    navigate('/checkout');
+  };
 
   return (
     <div className="pt-24 pb-16 bg-slate-50 min-h-screen">
@@ -39,54 +49,82 @@ export default function ProductsPage() {
                 key={product.id}
                 initial={{ opacity: 0, y: 20 }}
                 animate={{ opacity: 1, y: 0 }}
-                className="group bg-white rounded-[2.5rem] overflow-hidden shadow-sm hover:shadow-xl transition-all border border-slate-100"
+                className="group bg-white rounded-[2.5rem] overflow-hidden shadow-sm hover:shadow-xl transition-all border border-slate-100 flex flex-col justify-between"
               >
-                <Link to={`/product/${product.id}`} className="relative aspect-[4/5] overflow-hidden block">
-                  <div className={`absolute inset-0 bg-gradient-to-br ${product.color} opacity-10 group-hover:opacity-20 transition-opacity`} />
-                  <img
-                    src={`/products/${product.id}.png`}
-                    alt={product[language].name}
-                    className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-700"
-                  />
-                  <div className="absolute top-4 left-4">
-                    <span className="bg-white/90 backdrop-blur-md text-slate-900 px-4 py-1.5 rounded-full text-xs font-black uppercase tracking-widest shadow-sm">
-                      {product[language].phase}
-                    </span>
-                  </div>
-                </Link>
-                
-                <div className="p-8">
-                  <div className="flex justify-between items-start mb-4">
-                    <div>
-                      <h3 className="text-2xl font-black text-slate-900 mb-1">{product[language].name}</h3>
-                      <p className="text-sm text-slate-500 font-medium">{product[language].duration}</p>
+                <div>
+                  <Link to={`/product/${product.id}`} className="relative aspect-[4/5] overflow-hidden block">
+                    <div className={`absolute inset-0 bg-gradient-to-br ${product.color} opacity-10 group-hover:opacity-20 transition-opacity`} />
+                    <img
+                      src={`/products/${product.id}.png`}
+                      alt={product[language].name}
+                      className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-700"
+                      onError={(e) => {
+                        (e.target as HTMLElement).style.display = 'none';
+                      }}
+                    />
+                    <div className="absolute top-4 left-4">
+                      <span className="bg-white/90 backdrop-blur-md text-slate-900 px-4 py-1.5 rounded-full text-xs font-black uppercase tracking-widest shadow-sm">
+                        {product[language].phase}
+                      </span>
                     </div>
-                    <div className="text-right">
-                      <p className="text-[10px] text-slate-400 font-bold uppercase tracking-tighter">{t('products.price')}</p>
-                      <p className="text-lg font-black text-orange-500">{t('products.callUs')}</p>
-                    </div>
-                  </div>
+                  </Link>
                   
-                  <p className="text-slate-600 text-sm line-clamp-2 mb-8 leading-relaxed">
-                    {product[language].tagline}
-                  </p>
-
-                  <div className="flex flex-col sm:flex-row gap-3">
-                    <Link 
-                      to={`/product/${product.id}`}
-                      className="flex-1 bg-slate-100 text-slate-900 py-4 rounded-2xl font-bold text-sm flex items-center justify-center gap-2 hover:bg-slate-200 transition-all"
-                    >
-                      <Eye size={16} />
-                      {t('products.viewDetails')}
-                    </Link>
-                    <Link 
-                      to="/contact"
-                      className="flex-1 bg-orange-500 text-white py-4 rounded-2xl font-bold text-sm flex items-center justify-center gap-2 shadow-lg shadow-orange-500/20 hover:bg-orange-600 transition-all"
-                    >
-                      <Phone size={16} />
-                      {t('products.addToCart')}
-                    </Link>
+                  <div className="p-7">
+                    <div className="flex justify-between items-start mb-3 gap-2">
+                      <div>
+                        <h3 className="text-xl font-black text-slate-900 mb-1 leading-snug">
+                          {product[language].name}
+                        </h3>
+                        <p className="text-xs text-slate-500 font-medium">
+                          {product[language].duration}
+                        </p>
+                      </div>
+                      <div className="text-right shrink-0">
+                        <p className="text-[10px] text-slate-400 font-bold uppercase tracking-tighter">
+                          {t('products.price')}
+                        </p>
+                        <p className="text-base sm:text-lg font-black text-orange-600">
+                          {product.price ? formatPrice(product.price) : t('products.callForPrice')}
+                        </p>
+                        {product.price && (
+                          <span className="text-[10px] text-slate-400 font-semibold block">
+                            {product[language].bagSize}
+                          </span>
+                        )}
+                      </div>
+                    </div>
+                    
+                    <p className="text-slate-600 text-xs sm:text-sm line-clamp-2 mb-6 leading-relaxed">
+                      {product[language].tagline}
+                    </p>
                   </div>
+                </div>
+
+                <div className="px-7 pb-7 pt-0">
+                  <div className="flex gap-2.5">
+                    <button 
+                      onClick={() => addToCart(product, 1)}
+                      className="flex-1 bg-slate-100 hover:bg-slate-200 text-slate-800 py-3 rounded-xl font-bold text-xs flex items-center justify-center gap-1.5 transition-all active:scale-[0.98]"
+                    >
+                      <ShoppingBag size={15} />
+                      <span>{t('order.addToCart')}</span>
+                    </button>
+                    <button 
+                      onClick={() => handleDirectOrder(product)}
+                      className="flex-1 bg-orange-500 hover:bg-orange-600 text-white py-3 rounded-xl font-bold text-xs flex items-center justify-center gap-1.5 shadow-md shadow-orange-500/20 transition-all active:scale-[0.98]"
+                    >
+                      <Zap size={15} />
+                      <span>{t('order.directOrder')}</span>
+                    </button>
+                  </div>
+
+                  <Link 
+                    to={`/product/${product.id}`}
+                    className="w-full mt-3 text-center text-xs font-semibold text-slate-500 hover:text-orange-600 py-1 flex items-center justify-center gap-1 transition-colors"
+                  >
+                    <Eye size={13} />
+                    <span>{t('products.viewDetails')}</span>
+                  </Link>
                 </div>
               </motion.div>
             ))}

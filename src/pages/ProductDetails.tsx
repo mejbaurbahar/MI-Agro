@@ -1,8 +1,10 @@
-import { useParams, Link } from 'react-router-dom';
+import { useState } from 'react';
+import { useParams, Link, useNavigate } from 'react-router-dom';
 import { Helmet } from 'react-helmet-async';
 import { products } from '../data/products';
 import { motion } from 'motion/react';
 import { useLanguage } from '../context/LanguageContext';
+import { useCart } from '../context/CartContext';
 import { 
   ArrowLeft, 
   CheckCircle2, 
@@ -15,18 +17,19 @@ import {
   Wind,
   MessageSquare,
   Phone,
-  Mail
+  Mail,
+  ShoppingBag,
+  Plus,
+  Minus
 } from 'lucide-react';
-
-const iconMap: Record<string, any> = {
-  Zap: Zap,
-  TrendingUp: TrendingUp,
-  ShieldCheck: ShieldCheck,
-};
 
 export default function ProductDetails() {
   const { id } = useParams();
   const { language, t } = useLanguage();
+  const { addToCart, formatPrice } = useCart();
+  const navigate = useNavigate();
+  const [quantity, setQuantity] = useState(1);
+
   const product = products.find((p) => p.id === id);
 
   if (!product) {
@@ -41,8 +44,12 @@ export default function ProductDetails() {
   }
 
   const content = product[language];
-
   const productImage = `/products/${product.id}.png`;
+
+  const handleDirectOrder = () => {
+    addToCart(product, quantity);
+    navigate('/checkout');
+  };
 
   return (
     <div className="pt-20 pb-20 md:pb-24 bg-slate-50">
@@ -109,12 +116,21 @@ export default function ProductDetails() {
                   src={productImage} 
                   alt={content.name}
                   className="w-full h-64 md:h-96 object-cover rounded-2xl md:rounded-3xl shadow-lg"
-                  referrerPolicy="no-referrer"
+                  onError={(e) => {
+                    (e.target as HTMLElement).style.display = 'none';
+                  }}
                 />
                 <div className="absolute bottom-8 right-8 md:bottom-12 md:right-12">
-                  <div className="bg-white text-slate-900 p-4 rounded-2xl shadow-xl flex flex-col items-center">
+                  <div className="bg-white text-slate-900 p-4 sm:p-5 rounded-2xl shadow-xl flex flex-col items-center border border-slate-100">
                     <p className="text-[10px] font-black uppercase tracking-tighter text-slate-400">{t('products.price')}</p>
-                    <p className="text-xl font-black text-orange-500">{t('products.callUs')}</p>
+                    <p className="text-xl sm:text-2xl font-black text-orange-600">
+                      {product.price ? formatPrice(product.price) : t('products.callForPrice')}
+                    </p>
+                    {product.price && (
+                      <span className="text-[10px] text-slate-400 font-bold uppercase mt-0.5">
+                        {content.bagSize}
+                      </span>
+                    )}
                   </div>
                 </div>
               </div>
@@ -212,33 +228,107 @@ export default function ProductDetails() {
             </section>
           </div>
 
-          {/* Right Column - Sidebar */}
+          {/* Right Column - Order & Purchase Sidebar */}
           <div className="space-y-6 md:space-y-8">
             <div className="bg-white p-6 md:p-8 rounded-[1.5rem] md:rounded-[2.5rem] shadow-sm border border-slate-100 lg:sticky lg:top-28">
-              <h3 className="text-lg md:text-xl font-bold text-slate-900 mb-4 md:mb-6">{t('details.advantages')}</h3>
-              <div className="space-y-3 md:space-y-4 mb-6 md:mb-8">
+              
+              {/* Pricing Box */}
+              <div className="mb-6 p-4 rounded-2xl bg-orange-50/60 border border-orange-100">
+                <p className="text-xs font-bold uppercase tracking-wider text-orange-600 mb-1">
+                  {t('products.price')}
+                </p>
+                <div className="flex items-baseline gap-2">
+                  <span className="text-2xl sm:text-3xl font-black text-slate-900">
+                    {product.price ? formatPrice(product.price) : t('products.callForPrice')}
+                  </span>
+                  {product.price && (
+                    <span className="text-xs text-slate-500 font-bold">
+                      {content.bagSize}
+                    </span>
+                  )}
+                </div>
+                <p className="text-[11px] text-slate-500 mt-1">
+                  {language === 'bn' ? 'ক্যাশ অন ডেলিভারি প্রযোজ্য' : 'Cash on Delivery applicable'}
+                </p>
+              </div>
+
+              {/* Quantity Selector */}
+              <div className="mb-6">
+                <label className="block text-xs font-black uppercase tracking-wider text-slate-700 mb-2">
+                  {language === 'bn' ? 'পরিমাণ (ব্যাগ)' : 'Quantity (Bags)'}
+                </label>
+                <div className="flex items-center justify-between border-2 border-slate-200 rounded-2xl p-2 bg-slate-50">
+                  <button
+                    onClick={() => setQuantity((q) => Math.max(1, q - 1))}
+                    className="w-10 h-10 rounded-xl bg-white border border-slate-200 flex items-center justify-center text-slate-700 hover:bg-slate-100 transition-colors shadow-xs"
+                    aria-label="Decrease quantity"
+                  >
+                    <Minus size={16} />
+                  </button>
+                  <span className="text-lg font-black text-slate-900">
+                    {quantity}
+                  </span>
+                  <button
+                    onClick={() => setQuantity((q) => q + 1)}
+                    className="w-10 h-10 rounded-xl bg-white border border-slate-200 flex items-center justify-center text-slate-700 hover:bg-slate-100 transition-colors shadow-xs"
+                    aria-label="Increase quantity"
+                  >
+                    <Plus size={16} />
+                  </button>
+                </div>
+                {product.price && quantity > 1 && (
+                  <p className="text-xs text-right text-slate-500 font-bold mt-1.5">
+                    {language === 'bn' ? 'মোট মূল্য: ' : 'Total: '}
+                    <span className="text-orange-600 font-black">{formatPrice(product.price * quantity)}</span>
+                  </p>
+                )}
+              </div>
+
+              {/* Main E-commerce Actions */}
+              <div className="space-y-3 mb-8">
+                <button
+                  onClick={handleDirectOrder}
+                  className="w-full py-4 bg-gradient-to-r from-orange-500 to-orange-600 hover:from-orange-600 hover:to-orange-700 text-white rounded-2xl font-black text-sm uppercase tracking-wider shadow-lg shadow-orange-500/25 transition-all flex items-center justify-center gap-2 active:scale-[0.99]"
+                >
+                  <Zap size={18} />
+                  <span>{t('order.directOrder')}</span>
+                </button>
+
+                <button
+                  onClick={() => addToCart(product, quantity)}
+                  className="w-full py-3.5 bg-slate-900 hover:bg-slate-800 text-white rounded-2xl font-black text-sm uppercase tracking-wider transition-all flex items-center justify-center gap-2 active:scale-[0.99]"
+                >
+                  <ShoppingBag size={18} />
+                  <span>{t('order.addToCart')}</span>
+                </button>
+              </div>
+
+              {/* Competitive Advantages */}
+              <h3 className="text-sm font-bold uppercase tracking-wider text-slate-400 mb-4">{t('details.advantages')}</h3>
+              <div className="space-y-3 mb-8">
                 {content.advantages.map((adv, i) => (
-                  <div key={i} className="flex items-start gap-3">
-                    <CheckCircle2 size={18} className="text-green-500 shrink-0 mt-0.5" />
-                    <span className="text-xs md:text-sm text-slate-600 font-medium">{adv}</span>
+                  <div key={i} className="flex items-start gap-2.5">
+                    <CheckCircle2 size={16} className="text-green-500 shrink-0 mt-0.5" />
+                    <span className="text-xs text-slate-600 font-medium">{adv}</span>
                   </div>
                 ))}
               </div>
               
-              <div className="pt-6 md:pt-8 border-t border-slate-100">
-                <p className="text-xs md:text-sm font-bold text-slate-900 mb-4">{t('details.interested')}</p>
-                <div className="space-y-3">
-                  <a href="https://wa.me/8801817875139" className="flex items-center justify-center gap-3 w-full py-3 md:py-4 bg-orange-500 text-white rounded-xl md:rounded-2xl font-bold hover:bg-orange-600 transition-all shadow-md text-sm">
-                    <MessageSquare size={18} /> {t('products.addToCart')}
+              {/* Assistance & Direct Inquiry */}
+              <div className="pt-6 border-t border-slate-100">
+                <p className="text-xs font-bold text-slate-900 mb-3">{t('details.interested')}</p>
+                <div className="space-y-2.5">
+                  <a href={`https://wa.me/8801817875139?text=${encodeURIComponent(`Hello MI UNIFYLD AGRO LTD, I want to inquire about ${content.name}`)}`} target="_blank" rel="noreferrer" className="flex items-center justify-center gap-2.5 w-full py-3 bg-green-500 text-white rounded-xl font-bold hover:bg-green-600 transition-all text-xs">
+                    <MessageSquare size={16} /> <span>{t('contact.whatsapp')}</span>
                   </a>
-                  <a href="tel:+8801817875139" className="flex items-center justify-center gap-3 w-full py-3 md:py-4 bg-slate-900 text-white rounded-xl md:rounded-2xl font-bold hover:bg-slate-800 transition-all shadow-md text-sm">
-                    <Phone size={18} /> {t('nav.callNow')}
+                  <a href="tel:+8801817875139" className="flex items-center justify-center gap-2.5 w-full py-3 bg-slate-100 text-slate-800 rounded-xl font-bold hover:bg-slate-200 transition-all text-xs">
+                    <Phone size={16} /> <span>{t('nav.callNow')}</span>
                   </a>
-                  <a href="mailto:miunifyldagroltd@gmail.com" className="flex items-center justify-center gap-3 w-full py-3 md:py-4 bg-slate-100 text-slate-700 rounded-xl md:rounded-2xl font-bold hover:bg-slate-200 transition-all text-sm">
-                    <Mail size={18} /> {t('details.sendEmail')}
+                  <a href="mailto:info@miunifyldagroltd.com" className="flex items-center justify-center gap-2.5 w-full py-3 bg-slate-50 text-slate-600 rounded-xl font-bold hover:bg-slate-100 transition-all text-xs">
+                    <Mail size={16} /> <span>{t('details.sendEmail')}</span>
                   </a>
                 </div>
-                <p className="text-[8px] md:text-[10px] text-slate-400 text-center mt-6 uppercase tracking-widest font-bold">
+                <p className="text-[9px] text-slate-400 text-center mt-5 uppercase tracking-widest font-bold">
                   {t('details.commitment')}
                 </p>
               </div>
@@ -248,15 +338,22 @@ export default function ProductDetails() {
       </div>
 
       {/* Floating Mobile CTA */}
-      <div className="fixed bottom-0 left-0 right-0 z-50 p-4 bg-white/80 backdrop-blur-lg border-t border-slate-100 md:hidden flex gap-3">
-        <a href="tel:+8801817875139" className="flex-1 bg-slate-900 text-white py-4 rounded-2xl font-bold flex items-center justify-center gap-2 shadow-lg">
-          <Phone size={20} /> {t('nav.callNow')}
-        </a>
-        <a href="https://wa.me/8801817875139" className="flex-1 bg-orange-500 text-white py-4 rounded-2xl font-bold flex items-center justify-center gap-2 shadow-lg">
-          <MessageSquare size={20} /> {t('products.addToCart')}
-        </a>
+      <div className="fixed bottom-0 left-0 right-0 z-40 p-3 bg-white/90 backdrop-blur-lg border-t border-slate-200 md:hidden flex gap-2.5 shadow-2xl">
+        <button 
+          onClick={() => addToCart(product, quantity)}
+          className="flex-1 bg-slate-900 text-white py-3.5 rounded-xl font-bold text-xs flex items-center justify-center gap-1.5 shadow-md active:scale-95"
+        >
+          <ShoppingBag size={16} />
+          <span>{t('order.addToCart')}</span>
+        </button>
+        <button 
+          onClick={handleDirectOrder}
+          className="flex-1 bg-gradient-to-r from-orange-500 to-orange-600 text-white py-3.5 rounded-xl font-black text-xs flex items-center justify-center gap-1.5 shadow-md shadow-orange-500/25 active:scale-95"
+        >
+          <Zap size={16} />
+          <span>{t('order.directOrder')}</span>
+        </button>
       </div>
     </div>
   );
 }
-
