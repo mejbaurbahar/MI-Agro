@@ -116,6 +116,9 @@ export default function Checkout() {
       subtotal,
       totalBags: totalItems,
       paymentMethod: 'Cash on Delivery',
+      language,
+      deliveryFee: 'To be confirmed',
+      pageUrl: window.location.href,
       createdAt: new Date().toISOString(),
     };
 

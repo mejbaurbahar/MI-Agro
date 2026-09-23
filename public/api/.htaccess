@@ -1,0 +1,4 @@
+# Never expose customer order logs over HTTP
+<FilesMatch "\.(log)$">
+  Require all denied
+</FilesMatch>
