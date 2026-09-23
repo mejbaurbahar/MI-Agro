@@ -2,6 +2,7 @@ import React, { createContext, useContext, useState, useEffect } from 'react';
 import { Product } from '../data/products';
 import { useLanguage } from './LanguageContext';
 import { toast } from 'sonner';
+import { trackNerjaEvent } from '../utils/nerja';
 
 export interface CartItem {
   product: Product;
@@ -68,16 +69,50 @@ export const CartProvider: React.FC<{ children: React.ReactNode }> = ({ children
         ? `${product[language].name} কার্টে যোগ করা হয়েছে` 
         : `${product[language].name} added to cart`
     );
+
+    trackNerjaEvent('add_to_cart', {
+      product_id: product.id,
+      product_name: product.en.name,
+      product_price: product.price ? `৳ ${product.price.toFixed(2)}` : '',
+      product_image: `/products/${product.id}.png`,
+      product_category: product.category,
+      price: product.price || 0,
+      quantity,
+    });
   };
 
   const removeFromCart = (productId: string) => {
+    const itemToRemove = items.find((item) => item.product.id === productId);
     setItems((prev) => prev.filter((item) => item.product.id !== productId));
+    if (itemToRemove) {
+      trackNerjaEvent('remove_from_cart', {
+        product_id: itemToRemove.product.id,
+        product_name: itemToRemove.product.en.name,
+        product_price: itemToRemove.product.price ? `৳ ${itemToRemove.product.price.toFixed(2)}` : '',
+      });
+    }
   };
 
   const updateQuantity = (productId: string, quantity: number) => {
+    const existing = items.find((item) => item.product.id === productId);
     if (quantity <= 0) {
       removeFromCart(productId);
       return;
+    }
+    if (existing) {
+      if (quantity > existing.quantity) {
+        trackNerjaEvent('increase_quantity', {
+          product_id: productId,
+          product_name: existing.product.en.name,
+          quantity,
+        });
+      } else if (quantity < existing.quantity) {
+        trackNerjaEvent('decrease_quantity', {
+          product_id: productId,
+          product_name: existing.product.en.name,
+          quantity,
+        });
+      }
     }
     setItems((prev) =>
       prev.map((item) =>

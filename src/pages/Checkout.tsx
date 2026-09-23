@@ -23,6 +23,7 @@ import {
 import { useCart } from '../context/CartContext';
 import { useLanguage } from '../context/LanguageContext';
 import { toast } from 'sonner';
+import { trackNerjaEvent } from '../utils/nerja';
 
 interface OrderSuccessData {
   orderId: string;
@@ -185,6 +186,26 @@ export default function Checkout() {
       }),
     };
 
+    // Track explicit purchase and customer identity for Nerja AI
+    trackNerjaEvent('purchase', {
+      order_id: orderId,
+      revenue: subtotal,
+      currency: 'BDT',
+      total_bags: totalItems,
+      payment_method: 'Cash on Delivery',
+      customer_name: formData.name.trim(),
+      customer_phone: formData.phone.trim(),
+      customer_email: formData.email.trim(),
+      items: orderItems,
+    });
+
+    if (formData.phone.trim()) {
+      trackNerjaEvent('phone_captured', { phone: formData.phone.trim() });
+    }
+    if (formData.email.trim()) {
+      trackNerjaEvent('email_captured', { email: formData.email.trim() });
+    }
+
     setCompletedOrder(orderSuccessRecord);
     clearCart();
     setIsSubmitting(false);
@@ -230,7 +251,7 @@ export default function Checkout() {
   // Success view
   if (completedOrder) {
     return (
-      <div className="pt-24 pb-20 bg-slate-50 min-h-screen">
+      <div className="pt-24 pb-20 bg-slate-50 min-h-screen order-confirmation order-received">
         <Helmet>
           <title>{`${t('checkout.title')} | MI UNIFYLD AGRO LTD`}</title>
         </Helmet>
@@ -244,14 +265,14 @@ export default function Checkout() {
               <div className="w-20 h-20 bg-green-100 text-green-600 rounded-full flex items-center justify-center mx-auto mb-4 shadow-sm">
                 <CheckCircle2 size={44} />
               </div>
-              <span className="inline-block bg-orange-100 text-orange-800 text-xs font-black uppercase tracking-widest px-4 py-1.5 rounded-full mb-3">
+              <span className="inline-block bg-orange-100 text-orange-800 text-xs font-black uppercase tracking-widest px-4 py-1.5 rounded-full mb-3 order-number">
                 {t('checkout.orderId')}: {completedOrder.orderId}
               </span>
               <h1 className="text-2xl sm:text-4xl font-black text-slate-900 mb-2">
                 {t('checkout.successTitle')}
               </h1>
               <p className="text-sm sm:text-base text-slate-600 max-w-xl mx-auto leading-relaxed">
-                {t('checkout.successDesc')}
+                Thank you! Your order has been placed successfully. {t('checkout.successDesc')}
               </p>
             </div>
 
@@ -291,7 +312,7 @@ export default function Checkout() {
                 </p>
                 <div className="space-y-2">
                   {completedOrder.items.map((item, idx) => (
-                    <div key={idx} className="flex justify-between items-center text-sm">
+                    <div key={idx} className="flex justify-between items-center text-sm order_item">
                       <span className="font-medium text-slate-700">
                         {item.name} ({item.bagSize}) × {item.quantity}
                       </span>
@@ -304,7 +325,7 @@ export default function Checkout() {
               </div>
 
               {/* Total & Payment */}
-              <div className="pt-4 border-t border-slate-200 flex justify-between items-baseline">
+              <div className="pt-4 border-t border-slate-200 flex justify-between items-baseline order-total">
                 <div>
                   <span className="text-xs uppercase font-bold text-slate-500 block">
                     {t('checkout.paymentMethod')}
@@ -317,9 +338,9 @@ export default function Checkout() {
                   <span className="text-xs uppercase font-bold text-slate-500 block">
                     {t('checkout.total')}
                   </span>
-                  <span className="text-2xl font-black text-slate-900">
+                  <strong className="text-2xl font-black text-slate-900 amount price">
                     ৳ {completedOrder.subtotal.toLocaleString('en-US', { minimumFractionDigits: 2 })}
-                  </span>
+                  </strong>
                 </div>
               </div>
             </div>
@@ -703,7 +724,8 @@ export default function Checkout() {
                 <button
                   type="submit"
                   disabled={isSubmitting || items.length === 0}
-                  className="w-full bg-gradient-to-r from-orange-500 to-orange-600 hover:from-orange-600 hover:to-orange-700 text-white py-4 rounded-2xl font-black text-sm uppercase tracking-wider shadow-xl shadow-orange-500/25 transition-all flex items-center justify-center gap-2 active:scale-[0.99] disabled:opacity-50 disabled:cursor-not-allowed"
+                  aria-label="Confirm Order"
+                  className="place-order-btn w-full bg-gradient-to-r from-orange-500 to-orange-600 hover:from-orange-600 hover:to-orange-700 text-white py-4 rounded-2xl font-black text-sm uppercase tracking-wider shadow-xl shadow-orange-500/25 transition-all flex items-center justify-center gap-2 active:scale-[0.99] disabled:opacity-50 disabled:cursor-not-allowed"
                 >
                   {isSubmitting ? (
                     <>

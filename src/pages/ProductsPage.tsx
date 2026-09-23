@@ -49,7 +49,10 @@ export default function ProductsPage() {
                 key={product.id}
                 initial={{ opacity: 0, y: 20 }}
                 animate={{ opacity: 1, y: 0 }}
-                className="group bg-white rounded-[2.5rem] overflow-hidden shadow-sm hover:shadow-xl transition-all border border-slate-100 flex flex-col justify-between"
+                className="group bg-white rounded-[2.5rem] overflow-hidden shadow-sm hover:shadow-xl transition-all border border-slate-100 flex flex-col justify-between product-card"
+                data-product-id={product.id}
+                itemScope
+                itemType="https://schema.org/Product"
               >
                 <div>
                   <Link to={`/product/${product.id}`} className="relative aspect-[4/5] overflow-hidden block">
@@ -57,6 +60,9 @@ export default function ProductsPage() {
                     <img
                       src={`/products/${product.id}.png`}
                       alt={product[language].name}
+                      width={400}
+                      height={400}
+                      itemProp="image"
                       className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-700"
                       onError={(e) => {
                         (e.target as HTMLElement).style.display = 'none';
@@ -72,19 +78,25 @@ export default function ProductsPage() {
                   <div className="p-7">
                     <div className="flex justify-between items-start mb-3 gap-2">
                       <div>
-                        <h3 className="text-xl font-black text-slate-900 mb-1 leading-snug">
+                        <h3 itemProp="name" className="text-xl font-black text-slate-900 mb-1 leading-snug product-title">
                           {product[language].name}
                         </h3>
                         <p className="text-xs text-slate-500 font-medium">
                           {product[language].duration}
                         </p>
                       </div>
-                      <div className="text-right shrink-0">
+                      <div className="text-right shrink-0" itemProp="offers" itemScope itemType="https://schema.org/Offer">
                         <p className="text-[10px] text-slate-400 font-bold uppercase tracking-tighter">
                           {t('products.price')}
                         </p>
-                        <p className="text-base sm:text-lg font-black text-orange-600">
-                          {product.price ? formatPrice(product.price) : t('products.callForPrice')}
+                        <p className="text-base sm:text-lg font-black text-orange-600 price-tag">
+                          {product.price ? (
+                            <span itemProp="price" content={String(product.price)}>
+                              {formatPrice(product.price)}
+                            </span>
+                          ) : (
+                            t('products.callForPrice')
+                          )}
                         </p>
                         {product.price && (
                           <span className="text-[10px] text-slate-400 font-semibold block">
@@ -94,7 +106,7 @@ export default function ProductsPage() {
                       </div>
                     </div>
                     
-                    <p className="text-slate-600 text-xs sm:text-sm line-clamp-2 mb-6 leading-relaxed">
+                    <p itemProp="description" className="text-slate-600 text-xs sm:text-sm line-clamp-2 mb-6 leading-relaxed">
                       {product[language].tagline}
                     </p>
                   </div>
@@ -104,14 +116,17 @@ export default function ProductsPage() {
                   <div className="flex gap-2.5">
                     <button 
                       onClick={() => addToCart(product, 1)}
-                      className="flex-1 bg-slate-100 hover:bg-slate-200 text-slate-800 py-3 rounded-xl font-bold text-xs flex items-center justify-center gap-1.5 transition-all active:scale-[0.98]"
+                      aria-label="Add to cart"
+                      data-action="cart"
+                      className="add-to-cart-btn flex-1 bg-slate-100 hover:bg-slate-200 text-slate-800 py-3 rounded-xl font-bold text-xs flex items-center justify-center gap-1.5 transition-all active:scale-[0.98]"
                     >
                       <ShoppingBag size={15} />
                       <span>{t('order.addToCart')}</span>
                     </button>
                     <button 
                       onClick={() => handleDirectOrder(product)}
-                      className="flex-1 bg-orange-500 hover:bg-orange-600 text-white py-3 rounded-xl font-bold text-xs flex items-center justify-center gap-1.5 shadow-md shadow-orange-500/20 transition-all active:scale-[0.98]"
+                      aria-label="Buy now"
+                      className="buy-now-btn flex-1 bg-orange-500 hover:bg-orange-600 text-white py-3 rounded-xl font-bold text-xs flex items-center justify-center gap-1.5 shadow-md shadow-orange-500/20 transition-all active:scale-[0.98]"
                     >
                       <Zap size={15} />
                       <span>{t('order.directOrder')}</span>

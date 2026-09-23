@@ -52,7 +52,7 @@ export default function ProductDetails() {
   };
 
   return (
-    <div className="pt-20 pb-20 md:pb-24 bg-slate-50">
+    <div className="pt-20 pb-20 md:pb-24 bg-slate-50 product-card" data-product-id={product.id} itemScope itemType="https://schema.org/Product">
       <Helmet>
         <title>{`${content.name} | MI UNIFYLD AGRO LTD`}</title>
         <meta name="description" content={content.tagline} />
@@ -77,10 +77,10 @@ export default function ProductDetails() {
               <span className="bg-white/20 backdrop-blur-md text-white text-[10px] md:text-xs font-bold uppercase tracking-widest py-1.5 px-4 rounded-full mb-4 md:mb-6 inline-block">
                 {content.phase}
               </span>
-              <h1 className="text-3xl md:text-6xl font-black mb-4 md:mb-6 leading-tight">
+              <h1 itemProp="name" className="text-3xl md:text-6xl font-black mb-4 md:mb-6 leading-tight product-title">
                 {content.name}
               </h1>
-              <p className="text-lg md:text-2xl font-medium text-white/90 mb-6 md:mb-8 italic leading-relaxed">
+              <p itemProp="description" className="text-lg md:text-2xl font-medium text-white/90 mb-6 md:mb-8 italic leading-relaxed">
                 "{content.tagline}"
               </p>
               <div className="flex flex-wrap gap-4 md:gap-6">
@@ -115,16 +115,25 @@ export default function ProductDetails() {
                 <img 
                   src={productImage} 
                   alt={content.name}
+                  width={600}
+                  height={600}
+                  itemProp="image"
                   className="w-full h-64 md:h-96 object-cover rounded-2xl md:rounded-3xl shadow-lg"
                   onError={(e) => {
                     (e.target as HTMLElement).style.display = 'none';
                   }}
                 />
                 <div className="absolute bottom-8 right-8 md:bottom-12 md:right-12">
-                  <div className="bg-white text-slate-900 p-4 sm:p-5 rounded-2xl shadow-xl flex flex-col items-center border border-slate-100">
+                  <div className="bg-white text-slate-900 p-4 sm:p-5 rounded-2xl shadow-xl flex flex-col items-center border border-slate-100" itemProp="offers" itemScope itemType="https://schema.org/Offer">
                     <p className="text-[10px] font-black uppercase tracking-tighter text-slate-400">{t('products.price')}</p>
-                    <p className="text-xl sm:text-2xl font-black text-orange-600">
-                      {product.price ? formatPrice(product.price) : t('products.callForPrice')}
+                    <p className="text-xl sm:text-2xl font-black text-orange-600 price-tag">
+                      {product.price ? (
+                        <span itemProp="price" content={String(product.price)}>
+                          {formatPrice(product.price)}
+                        </span>
+                      ) : (
+                        t('products.callForPrice')
+                      )}
                     </p>
                     {product.price && (
                       <span className="text-[10px] text-slate-400 font-bold uppercase mt-0.5">
@@ -288,7 +297,8 @@ export default function ProductDetails() {
               <div className="space-y-3 mb-8">
                 <button
                   onClick={handleDirectOrder}
-                  className="w-full py-4 bg-gradient-to-r from-orange-500 to-orange-600 hover:from-orange-600 hover:to-orange-700 text-white rounded-2xl font-black text-sm uppercase tracking-wider shadow-lg shadow-orange-500/25 transition-all flex items-center justify-center gap-2 active:scale-[0.99]"
+                  aria-label="Buy now"
+                  className="buy-now-btn w-full py-4 bg-gradient-to-r from-orange-500 to-orange-600 hover:from-orange-600 hover:to-orange-700 text-white rounded-2xl font-black text-sm uppercase tracking-wider shadow-lg shadow-orange-500/25 transition-all flex items-center justify-center gap-2 active:scale-[0.99]"
                 >
                   <Zap size={18} />
                   <span>{t('order.directOrder')}</span>
@@ -296,7 +306,9 @@ export default function ProductDetails() {
 
                 <button
                   onClick={() => addToCart(product, quantity)}
-                  className="w-full py-3.5 bg-slate-900 hover:bg-slate-800 text-white rounded-2xl font-black text-sm uppercase tracking-wider transition-all flex items-center justify-center gap-2 active:scale-[0.99]"
+                  aria-label="Add to cart"
+                  data-action="cart"
+                  className="add-to-cart-btn w-full py-3.5 bg-slate-900 hover:bg-slate-800 text-white rounded-2xl font-black text-sm uppercase tracking-wider transition-all flex items-center justify-center gap-2 active:scale-[0.99]"
                 >
                   <ShoppingBag size={18} />
                   <span>{t('order.addToCart')}</span>

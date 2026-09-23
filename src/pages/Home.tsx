@@ -231,13 +231,19 @@ export default function Home() {
                 initial={{ opacity: 0, y: 20 }}
                 whileInView={{ opacity: 1, y: 0 }}
                 viewport={{ once: true }}
-                className="group bg-white rounded-[2rem] md:rounded-[2.5rem] overflow-hidden shadow-sm hover:shadow-xl transition-all border border-slate-100"
+                className="group bg-white rounded-[2rem] md:rounded-[2.5rem] overflow-hidden shadow-sm hover:shadow-xl transition-all border border-slate-100 product-card"
+                data-product-id={product.id}
+                itemScope
+                itemType="https://schema.org/Product"
               >
                 <Link to={`/product/${product.id}`} className="relative aspect-[4/3] md:aspect-[4/5] overflow-hidden block">
                   <div className={`absolute inset-0 bg-gradient-to-br ${product.color} opacity-10 group-hover:opacity-20 transition-opacity`} />
                   <img
                     src={`/products/${product.id}.png`}
                     alt={product[language].name}
+                    width={400}
+                    height={400}
+                    itemProp="image"
                     className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-700"
                   />
                   <div className="absolute top-3 left-3 md:top-4 md:left-4">
@@ -251,19 +257,25 @@ export default function Home() {
                   <div>
                     <div className="flex justify-between items-start mb-3 gap-2">
                       <div>
-                        <h3 className="text-lg md:text-xl font-black text-slate-900 mb-1 leading-snug">
+                        <h3 itemProp="name" className="text-lg md:text-xl font-black text-slate-900 mb-1 leading-snug product-title">
                           {product[language].name}
                         </h3>
                         <p className="text-xs text-slate-500 font-medium">
                           {product[language].duration}
                         </p>
                       </div>
-                      <div className="text-right shrink-0">
+                      <div className="text-right shrink-0" itemProp="offers" itemScope itemType="https://schema.org/Offer">
                         <p className="text-[10px] text-slate-400 font-bold uppercase tracking-tighter">
                           {t('products.price')}
                         </p>
-                        <p className="text-base md:text-lg font-black text-orange-600">
-                          {product.price ? formatPrice(product.price) : t('products.callForPrice')}
+                        <p className="text-base md:text-lg font-black text-orange-600 price-tag">
+                          {product.price ? (
+                            <span itemProp="price" content={String(product.price)}>
+                              {formatPrice(product.price)}
+                            </span>
+                          ) : (
+                            t('products.callForPrice')
+                          )}
                         </p>
                         {product.price && (
                           <span className="text-[10px] text-slate-400 font-semibold block">
@@ -273,7 +285,7 @@ export default function Home() {
                       </div>
                     </div>
                     
-                    <p className="text-slate-600 text-xs md:text-sm line-clamp-2 mb-6 leading-relaxed">
+                    <p itemProp="description" className="text-slate-600 text-xs md:text-sm line-clamp-2 mb-6 leading-relaxed">
                       {product[language].tagline}
                     </p>
                   </div>
@@ -282,7 +294,9 @@ export default function Home() {
                     <div className="flex gap-2.5">
                       <button 
                         onClick={() => addToCart(product, 1)}
-                        className="flex-1 bg-slate-100 hover:bg-slate-200 text-slate-800 py-3 rounded-xl font-bold text-xs flex items-center justify-center gap-1.5 transition-all active:scale-[0.98]"
+                        aria-label="Add to cart"
+                        data-action="cart"
+                        className="add-to-cart-btn flex-1 bg-slate-100 hover:bg-slate-200 text-slate-800 py-3 rounded-xl font-bold text-xs flex items-center justify-center gap-1.5 transition-all active:scale-[0.98]"
                       >
                         <ShoppingBag size={15} />
                         <span>{t('order.addToCart')}</span>
@@ -292,7 +306,8 @@ export default function Home() {
                           addToCart(product, 1);
                           navigate('/checkout');
                         }}
-                        className="flex-1 bg-orange-500 hover:bg-orange-600 text-white py-3 rounded-xl font-bold text-xs flex items-center justify-center gap-1.5 shadow-md shadow-orange-500/20 transition-all active:scale-[0.98]"
+                        aria-label="Buy now"
+                        className="buy-now-btn flex-1 bg-orange-500 hover:bg-orange-600 text-white py-3 rounded-xl font-bold text-xs flex items-center justify-center gap-1.5 shadow-md shadow-orange-500/20 transition-all active:scale-[0.98]"
                       >
                         <Zap size={15} />
                         <span>{t('order.directOrder')}</span>

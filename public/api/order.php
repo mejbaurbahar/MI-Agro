@@ -188,7 +188,7 @@ if (!empty($customer['email']) && filter_var($customer['email'], FILTER_VALIDATE
 }
 $headers .= "X-Mailer: PHP/" . phpversion();
 
-$mailSent = @mail($to, $subject, $htmlBody, $headers);
+$mailSent = @mail($to, $subject, $htmlBody, $headers, "-finfo@miunifyldagroltd.com");
 
 // Backup log in public/api/orders.log
 $logEntry = date('Y-m-d H:i:s') . " | {$orderId} | {$name} | {$phone} | {$formattedTotal} | Sent: " . ($mailSent ? 'YES' : 'NO') . "\n";

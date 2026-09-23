@@ -204,7 +204,8 @@ export default function CartDrawer() {
                 <div className="space-y-2 pt-1">
                   <button
                     onClick={handleCheckout}
-                    className="w-full bg-gradient-to-r from-orange-500 to-orange-600 hover:from-orange-600 hover:to-orange-700 text-white py-3.5 rounded-xl font-black text-sm uppercase tracking-wider shadow-lg shadow-orange-500/25 flex items-center justify-center gap-2 transition-all active:scale-[0.99]"
+                    aria-label="Proceed to Checkout"
+                    className="checkout-btn w-full bg-gradient-to-r from-orange-500 to-orange-600 hover:from-orange-600 hover:to-orange-700 text-white py-3.5 rounded-xl font-black text-sm uppercase tracking-wider shadow-lg shadow-orange-500/25 flex items-center justify-center gap-2 transition-all active:scale-[0.99]"
                   >
                     <span>{t('cart.checkout')}</span>
                     <ArrowRight size={18} />
