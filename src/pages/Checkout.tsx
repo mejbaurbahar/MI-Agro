@@ -122,8 +122,8 @@ export default function Checkout() {
     let apiSentSuccessfully = false;
 
     try {
-      // 1. Try Node server /api/order
-      const response = await fetch('/api/order', {
+      // 1. Primary: Try /api/order.php (Apache/cPanel live environment)
+      const phpResponse = await fetch('/api/order.php', {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',
@@ -132,31 +132,30 @@ export default function Checkout() {
         body: JSON.stringify(payload),
       });
 
-      if (response.ok) {
+      if (phpResponse.ok) {
         apiSentSuccessfully = true;
       } else {
-        // Fallback: try PHP endpoint if on Apache/cPanel
+        // Fallback: try Node /api/order endpoint
         try {
-          const phpResponse = await fetch('/api/order.php', {
+          const nodeResponse = await fetch('/api/order', {
             method: 'POST',
             headers: { 'Content-Type': 'application/json' },
             body: JSON.stringify(payload),
           });
-          if (phpResponse.ok) apiSentSuccessfully = true;
+          if (nodeResponse.ok) apiSentSuccessfully = true;
         } catch {
           // ignore fallback error
         }
       }
     } catch (err) {
-      console.warn('Network call to order API returned notice:', err);
-      // Try php endpoint fallback
+      console.warn('Primary order endpoint notice:', err);
       try {
-        const phpResponse = await fetch('/api/order.php', {
+        const nodeResponse = await fetch('/api/order', {
           method: 'POST',
           headers: { 'Content-Type': 'application/json' },
           body: JSON.stringify(payload),
         });
-        if (phpResponse.ok) apiSentSuccessfully = true;
+        if (nodeResponse.ok) apiSentSuccessfully = true;
       } catch {
         // Continue to success screen so customer is not stranded
       }
