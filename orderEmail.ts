@@ -4,6 +4,7 @@
  */
 
 export interface OrderItemPayload {
+  id?: string;
   nameEn?: string;
   nameBn?: string;
   name?: string;
@@ -32,6 +33,16 @@ export interface BuiltEmail {
 }
 
 const COMPANY = 'MI UNIFYLD AGRO LTD';
+const SITE_URL = 'https://www.miunifyldagroltd.com';
+
+// Product id is whitelisted so URLs can only point at our own site.
+const productLinks = (id?: string) => {
+  const pid = String(id ?? '').toLowerCase().replace(/[^a-z0-9-]/g, '');
+  return {
+    url: pid ? `${SITE_URL}/product/${pid}` : `${SITE_URL}/products/all`,
+    image: pid ? `${SITE_URL}/products/${pid}.png` : '',
+  };
+};
 
 export const esc = (value: unknown): string =>
   String(value ?? '')
@@ -90,8 +101,21 @@ export function buildOrderEmails(order: OrderPayload, orderId: string) {
       const sub = nameBn && nameBn !== nameEn ? `<br><span style="color:#64748b;font-size:12px;">${nameBn}</span>` : '';
       const unit = item.unitPrice ? money(item.unitPrice) : 'Call for price';
       const line = item.lineTotal ? money(item.lineTotal) : 'Call for price';
+      const { url, image } = productLinks(item.id);
+      const thumb = image
+        ? `<a href="${url}"><img src="${image}" alt="${nameEn}" width="64" height="64" style="display:block;width:64px;height:64px;object-fit:cover;border-radius:8px;border:1px solid #e2e8f0;background:#f1f5f9;"></a>`
+        : '';
       return `<tr>
-        <td style="padding:12px 10px;border-bottom:1px solid #e2e8f0;font-size:14px;"><strong style="color:#0f172a;">${idx + 1}. ${nameEn}</strong>${sub}<br><span style="color:#64748b;font-size:12px;">${esc(item.bagSize || '50 kg')}</span></td>
+        <td style="padding:12px 10px;border-bottom:1px solid #e2e8f0;font-size:14px;">
+          <table role="presentation" style="border-collapse:collapse;"><tr>
+            <td style="padding:0 12px 0 0;vertical-align:top;">${thumb}</td>
+            <td style="vertical-align:top;">
+              <a href="${url}" style="color:#0f172a;text-decoration:none;"><strong>${idx + 1}. ${nameEn}</strong></a>${sub}<br>
+              <span style="color:#64748b;font-size:12px;">${esc(item.bagSize || '50 kg')}</span><br>
+              <a href="${url}" style="color:#0284c7;font-size:12px;text-decoration:none;">View product &rarr;</a>
+            </td>
+          </tr></table>
+        </td>
         <td style="padding:12px 10px;border-bottom:1px solid #e2e8f0;text-align:center;font-size:14px;">${Math.max(1, Number(item.quantity) || 1)}</td>
         <td style="padding:12px 10px;border-bottom:1px solid #e2e8f0;text-align:right;font-size:14px;">${unit}</td>
         <td style="padding:12px 10px;border-bottom:1px solid #e2e8f0;text-align:right;font-size:14px;font-weight:bold;">${line}</td>
@@ -103,7 +127,7 @@ export function buildOrderEmails(order: OrderPayload, orderId: string) {
     .map((item, idx) => {
       const unit = item.unitPrice ? money(item.unitPrice) : 'Call for price';
       const line = item.lineTotal ? money(item.lineTotal) : 'Call for price';
-      return `${idx + 1}. ${item.nameEn || item.name || 'Product'} (${item.bagSize || '50 kg'}) x ${Math.max(1, Number(item.quantity) || 1)} @ ${unit} = ${line}`;
+      return `${idx + 1}. ${item.nameEn || item.name || 'Product'} (${item.bagSize || '50 kg'}) x ${Math.max(1, Number(item.quantity) || 1)} @ ${unit} = ${line}\n   ${productLinks(item.id).url}`;
     })
     .join('\n');
 

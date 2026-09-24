@@ -27,6 +27,7 @@ if ($_SERVER['REQUEST_METHOD'] !== 'POST') {
 const ADMIN_EMAIL = 'miunifyldagroltd@gmail.com';
 const FROM_EMAIL = 'info@miunifyldagroltd.com';
 const COMPANY = 'MI UNIFYLD AGRO LTD';
+const SITE_URL = 'https://www.miunifyldagroltd.com';
 
 // ---------------------------------------------------------------- helpers
 
@@ -185,13 +186,28 @@ foreach ($items as $item) {
     $unitPrice = $hasPrice ? money($item['unitPrice']) : 'Call for price';
     $lineTotal = !empty($item['lineTotal']) ? money($item['lineTotal']) : 'Call for price';
 
+    // Product id is whitelisted so URLs can only ever point at our own site.
+    $pid = preg_replace('/[^a-z0-9\-]/', '', strtolower((string) ($item['id'] ?? '')));
+    $productUrl = $pid !== '' ? SITE_URL . '/product/' . $pid : SITE_URL . '/products/all';
+    $imageUrl = $pid !== '' ? SITE_URL . '/products/' . $pid . '.png' : '';
+
     // Show the English (original) product name first, Bangla name beneath if different.
     $subName = ($nameBn !== '' && $nameBn !== $nameEn) ? "<br><span style='color:#64748b;font-size:12px;'>{$nameBn}</span>" : '';
 
+    $thumb = $imageUrl !== ''
+        ? "<a href='{$productUrl}'><img src='{$imageUrl}' alt='{$nameEn}' width='64' height='64' style='display:block;width:64px;height:64px;object-fit:cover;border-radius:8px;border:1px solid #e2e8f0;background:#f1f5f9;'></a>"
+        : '';
+
     $itemsHtml .= "<tr>
       <td style='padding:12px 10px;border-bottom:1px solid #e2e8f0;font-size:14px;'>
-        <strong style='color:#0f172a;'>{$counter}. {$nameEn}</strong>{$subName}<br>
-        <span style='color:#64748b;font-size:12px;'>{$bag}</span>
+        <table role='presentation' style='border-collapse:collapse;'><tr>
+          <td style='padding:0 12px 0 0;vertical-align:top;'>{$thumb}</td>
+          <td style='vertical-align:top;'>
+            <a href='{$productUrl}' style='color:#0f172a;text-decoration:none;'><strong>{$counter}. {$nameEn}</strong></a>{$subName}<br>
+            <span style='color:#64748b;font-size:12px;'>{$bag}</span><br>
+            <a href='{$productUrl}' style='color:#0284c7;font-size:12px;text-decoration:none;'>View product &rarr;</a>
+          </td>
+        </tr></table>
       </td>
       <td style='padding:12px 10px;border-bottom:1px solid #e2e8f0;text-align:center;font-size:14px;'>{$qty}</td>
       <td style='padding:12px 10px;border-bottom:1px solid #e2e8f0;text-align:right;font-size:14px;'>{$unitPrice}</td>
@@ -199,7 +215,7 @@ foreach ($items as $item) {
     </tr>";
 
     $itemsText .= "{$counter}. " . html_entity_decode(strip_tags($nameEn), ENT_QUOTES, 'UTF-8')
-        . ' (' . html_entity_decode($bag, ENT_QUOTES, 'UTF-8') . ") x {$qty} @ {$unitPrice} = {$lineTotal}\n";
+        . ' (' . html_entity_decode($bag, ENT_QUOTES, 'UTF-8') . ") x {$qty} @ {$unitPrice} = {$lineTotal}\n   {$productUrl}\n";
     $counter++;
 }
 
