@@ -39,8 +39,8 @@ export default function Navbar() {
       <nav
         className={`w-full transition-all duration-300 border-b ${
           scrolled
-            ? 'bg-slate-950/85 apple-blur border-white/[0.08] shadow-[0_4px_30px_rgba(0,0,0,0.25)] py-2.5'
-            : 'bg-slate-950/75 apple-blur border-white/[0.05] py-3.5'
+            ? 'bg-slate-950/95 apple-blur border-white/[0.08] shadow-[0_4px_30px_rgba(0,0,0,0.35)] py-2.5'
+            : 'bg-slate-950/90 apple-blur border-white/[0.06] py-3.5'
         }`}
       >
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
