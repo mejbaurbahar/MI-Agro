@@ -1,7 +1,6 @@
-import { useState, useEffect } from 'react';
 import { Link, useNavigate } from 'react-router-dom';
 import { Helmet } from 'react-helmet-async';
-import { motion, AnimatePresence } from 'motion/react';
+import { motion } from 'motion/react';
 import { 
   ArrowRight, 
   Zap, 
@@ -16,8 +15,6 @@ import {
   MessageSquare, 
   ShoppingBag,
   Sparkles,
-  ChevronLeft,
-  ChevronRight,
   Sprout,
   Award,
   Truck,
@@ -28,54 +25,10 @@ import { useCart } from '../context/CartContext';
 import { products, getProductImage } from '../data/products';
 import { trackMetaViewContent } from '../utils/metaPixel';
 
-const heroSlides = [
-  {
-    image: '/hero-farm.jpg',
-    tag: { bn: '🌱 আধুনিক পোল্ট্রি খামার ও পুষ্টি', en: '🌱 Modern Poultry Farm & Nutrition' },
-    titlePrefix: { bn: 'পুষ্টিকর বৃদ্ধি, ', en: 'Nourishing Growth, ' },
-    titleAccent: { bn: 'সর্বোচ্চ খামার লাভ', en: 'Maximizing Farm Profit' },
-    desc: { 
-      bn: 'বাংলাদেশে সর্বোচ্চ মানের ব্রয়লার, সোনালী ও ক্যাটল ফিডের বিশ্বস্ত সমাধান। বৈজ্ঞানিক ফর্মুলেশনে দ্রুত বৃদ্ধি ও কম এফসিআর (FCR)।',
-      en: 'Premium poultry, sonali, and cattle feed solutions engineered for low FCR, faster weight gain, and maximum farm profitability.'
-    }
-  },
-  {
-    image: '/hero-cattle.jpg',
-    tag: { bn: '🐄 ডেইরি ক্যাটল ও খামার পুষ্টি', en: '🐄 Dairy Cattle & Livestock Nutrition' },
-    titlePrefix: { bn: 'সুস্থ গবাদি পশু, ', en: 'Healthy Cattle, ' },
-    titleAccent: { bn: 'অধিক দুধ ও মাংস উৎপাদন', en: 'Higher Milk & Beef Yield' },
-    desc: { 
-      bn: 'দুগ্ধবতী গাভী ও ষাঁড় মোটাতাজাকরণে শতভাগ সুষম ক্যালসিয়াম, ভিটামিন ও প্রোটিন সমৃদ্ধ ক্যাটল ফিড।',
-      en: 'Scientifically balanced feed with calcium, vitamins, and bypass proteins for maximum milk yield and healthy cattle fattening.'
-    }
-  },
-  {
-    image: '/hero-harvest.jpg',
-    tag: { bn: '🌾 টেকসই কৃষি ও খাঁটি খাদ্য', en: '🌾 Sustainable Agriculture & Pure Foods' },
-    titlePrefix: { bn: 'খামারি থেকে পরিবার, ', en: 'From Farm to Family, ' },
-    titleAccent: { bn: 'নিরাপদ পুষ্টির নিশ্চয়তা', en: 'Guaranteed Safe Nutrition' },
-    desc: { 
-      bn: 'আন্তর্জাতিক মানদণ্ডে পরীক্ষিত ফিড এবং পাহাড়ি বাগানের প্রিমিয়াম চা ও শতভাগ হাইজেনিক খাদ্যপণ্য।',
-      en: 'Lab-tested feeds along with authentic organic hill tea and premium hygienic consumer food staples.'
-    }
-  }
-];
-
 export default function Home() {
   const { t, language } = useLanguage();
   const { addToCart, formatPrice } = useCart();
   const navigate = useNavigate();
-  const [currentSlide, setCurrentSlide] = useState(0);
-
-  useEffect(() => {
-    const timer = setInterval(() => {
-      setCurrentSlide((prev) => (prev + 1) % heroSlides.length);
-    }, 7000);
-    return () => clearInterval(timer);
-  }, []);
-
-  const nextSlide = () => setCurrentSlide((prev) => (prev + 1) % heroSlides.length);
-  const prevSlide = () => setCurrentSlide((prev) => (prev - 1 + heroSlides.length) % heroSlides.length);
 
   return (
     <div className="bg-[#fcfdfa] text-slate-900 overflow-hidden">
@@ -84,27 +37,15 @@ export default function Home() {
         <meta name="description" content={t('seo.home.desc')} />
       </Helmet>
 
-      {/* Hero Section — Real Agro Farm Visual Stage */}
+      {/* Hero Section — Real Agro Farm Visual Stage (Gemini generated authentic poultry barn, zero products, zero text) */}
       <section className="relative min-h-[85vh] lg:min-h-[90vh] flex items-center justify-center overflow-hidden">
-        {/* Farm Background Slides with Smooth Fade */}
-        <div className="absolute inset-0 z-0">
-          <AnimatePresence mode="wait">
-            <motion.div
-              key={currentSlide}
-              initial={{ opacity: 0, scale: 1.05 }}
-              animate={{ opacity: 1, scale: 1 }}
-              exit={{ opacity: 0 }}
-              transition={{ duration: 1.2, ease: 'easeOut' }}
-              className="absolute inset-0"
-            >
-              <img 
-                src={heroSlides[currentSlide].image} 
-                className="w-full h-full object-cover object-center"
-                alt="Real Agro Farm Scene"
-                referrerPolicy="no-referrer"
-              />
-            </motion.div>
-          </AnimatePresence>
+        {/* Background Image: Pure authentic commercial agro farm scene */}
+        <div className="absolute inset-0 z-0 overflow-hidden">
+          <img 
+            src="/hero-farm.jpg" 
+            className="w-full h-full object-cover object-center scale-100"
+            alt="MI Unifyld Agro Farm"
+          />
 
           {/* Authentic Agrarian Overlays: Light enough so the real farm, chickens & barn are crisp, with smooth edge vignetting */}
           <div className="absolute inset-0 bg-gradient-to-b from-[#021807]/75 via-[#021807]/35 to-[#021807] z-10" />
@@ -114,29 +55,31 @@ export default function Home() {
         {/* Hero Content */}
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 relative z-20 w-full text-center pt-28 pb-20 md:pt-36 md:pb-28">
           <motion.div
-            key={currentSlide}
             initial={{ opacity: 0, y: 20 }}
             animate={{ opacity: 1, y: 0 }}
-            transition={{ duration: 0.6 }}
+            transition={{ duration: 0.8 }}
             className="max-w-4xl mx-auto"
           >
             {/* Agro Farm Eyebrow Badge */}
             <div className="inline-flex items-center gap-2 px-4 py-1.5 rounded-full bg-emerald-950/80 border border-emerald-400/40 text-emerald-300 text-xs sm:text-sm font-semibold tracking-wide mb-6 backdrop-blur-md shadow-2xl">
               <Sprout size={15} className="text-emerald-400 animate-pulse" />
-              <span>{heroSlides[currentSlide].tag[language]}</span>
+              <span>{language === 'bn' ? '🌱 আধুনিক পোল্ট্রি ও ডেইরি খামার পুষ্টি' : '🌱 Modern Poultry & Dairy Farm Nutrition'}</span>
             </div>
 
             {/* Farm Power Headline */}
             <h1 className="text-4xl sm:text-6xl lg:text-7xl font-black text-white tracking-tight leading-[1.1] mb-6 drop-shadow-[0_4px_16px_rgba(0,0,0,0.9)]">
-              {heroSlides[currentSlide].titlePrefix[language]}{' '}
+              {language === 'bn' ? 'পুষ্টিকর বৃদ্ধি, ' : 'Nourishing Growth, '}
               <span className="text-amber-400 bg-gradient-to-r from-amber-300 to-yellow-400 bg-clip-text text-transparent drop-shadow-[0_4px_20px_rgba(0,0,0,0.9)]">
-                {heroSlides[currentSlide].titleAccent[language]}
+                {language === 'bn' ? 'সর্বোচ্চ খামার লাভ' : 'Maximizing Farm Profit'}
               </span>
             </h1>
 
             {/* Subtitle */}
             <p className="text-base sm:text-xl text-emerald-50 max-w-2xl mx-auto mb-10 leading-relaxed font-semibold drop-shadow-[0_2px_10px_rgba(0,0,0,0.9)]">
-              {heroSlides[currentSlide].desc[language]}
+              {language === 'bn' 
+                ? 'বাংলাদেশে সর্বোচ্চ মানের ব্রয়লার, সোনালী ও ক্যাটল ফিডের বিশ্বস্ত সমাধান। বৈজ্ঞানিক ফর্মুলেশনে দ্রুত শারীরিক বৃদ্ধি ও কম এফসিআর (FCR)।'
+                : 'Premium poultry, sonali, and cattle feed solutions engineered for low FCR, faster weight gain, and maximum farm profitability.'
+              }
             </p>
 
             {/* Agro Action Buttons */}
@@ -158,36 +101,6 @@ export default function Home() {
               </a>
             </div>
           </motion.div>
-
-          {/* Slide Navigation Dots & Arrows */}
-          <div className="mt-8 flex items-center justify-center gap-4">
-            <button
-              onClick={prevSlide}
-              aria-label="Previous farm slide"
-              className="w-8 h-8 rounded-full bg-white/10 hover:bg-white/20 text-white/80 hover:text-white flex items-center justify-center backdrop-blur-sm transition-colors"
-            >
-              <ChevronLeft size={18} />
-            </button>
-            <div className="flex gap-2">
-              {heroSlides.map((_, i) => (
-                <button
-                  key={i}
-                  onClick={() => setCurrentSlide(i)}
-                  aria-label={`Go to slide ${i + 1}`}
-                  className={`h-2 rounded-full transition-all duration-300 ${
-                    currentSlide === i ? 'w-8 bg-amber-400' : 'w-2 bg-white/40 hover:bg-white/60'
-                  }`}
-                />
-              ))}
-            </div>
-            <button
-              onClick={nextSlide}
-              aria-label="Next farm slide"
-              className="w-8 h-8 rounded-full bg-white/10 hover:bg-white/20 text-white/80 hover:text-white flex items-center justify-center backdrop-blur-sm transition-colors"
-            >
-              <ChevronRight size={18} />
-            </button>
-          </div>
 
           {/* Key Agro Metrics & Trust Bar */}
           <motion.div
