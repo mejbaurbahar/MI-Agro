@@ -1,0 +1,194 @@
+# ============================================================
+#  MI UNIFYLD AGRO LTD — Apache Security Configuration
+#  miunifyldagroltd.com | cPanel/Apache
+# ============================================================
+
+# ── MIME Types ───────────────────────────────────────────────
+<IfModule mod_mime.c>
+    AddType application/javascript .js
+    AddType application/javascript .mjs
+    AddType application/javascript .ts
+    AddType application/javascript .tsx
+    AddType image/x-icon .ico
+    AddType image/png .png
+    AddType image/webp .webp
+    AddType image/svg+xml .svg
+</IfModule>
+
+# ── Custom Error Pages ───────────────────────────────────────
+ErrorDocument 404 /404.html
+ErrorDocument 500 /500.html
+
+# ── Redirects (HTTPS + WWW) ──────────────────────────────────
+<IfModule mod_rewrite.c>
+    RewriteEngine On
+    
+    # Force HTTPS & WWW combined for better performance and consistency
+    RewriteCond %{HTTPS} off [OR]
+    RewriteCond %{HTTP_HOST} !^www\. [NC]
+    RewriteRule ^ https://www.miunifyldagroltd.com%{REQUEST_URI} [L,R=301]
+
+    # Block access to cgi-bin
+    RewriteRule ^cgi-bin/.*$ / [R=301,L]
+
+    # Skip rules for files that exist
+    RewriteCond %{REQUEST_FILENAME} -f
+    RewriteCond %{REQUEST_FILENAME} -d
+    RewriteRule ^ - [L]
+
+    # Skip admin sub-app logic if handled elsewhere, or keep it
+    RewriteRule ^admin/ - [L]
+
+    # SPA routing fallback
+    # Exclude assets folder from fallback to prevent MIME type mismatch errors on missing JS/CSS
+    RewriteCond %{REQUEST_FILENAME} !-f
+    RewriteCond %{REQUEST_FILENAME} !-d
+    RewriteCond %{REQUEST_URI} !^/assets/
+    RewriteRule . /index.html [L]
+</IfModule>
+
+# ── Security Headers ─────────────────────────────────────────
+<IfModule mod_headers.c>
+    # Strict Transport Security — force HTTPS for 1 year
+    Header always set Strict-Transport-Security "max-age=31536000; includeSubDomains; preload"
+
+    # Prevent clickjacking
+    Header always set X-Frame-Options "SAMEORIGIN"
+
+    # Prevent MIME sniffing
+    Header always set X-Content-Type-Options "nosniff"
+
+    # XSS Protection (legacy browsers)
+    Header always set X-XSS-Protection "1; mode=block"
+
+    # Referrer Policy
+    Header always set Referrer-Policy "strict-origin-when-cross-origin"
+
+    # Permissions Policy — disable unused browser features
+    Header always set Permissions-Policy "geolocation=(), microphone=(), camera=(), payment=(), usb=(), accelerometer=(), gyroscope=()"
+
+    # Content Security Policy
+    Header always set Content-Security-Policy "default-src 'self'; script-src 'self' 'unsafe-inline' 'unsafe-eval' https://fonts.googleapis.com https://*.amazonaws.com https://*.execute-api.ap-south-1.amazonaws.com https://connect.facebook.net https://*.facebook.com https://*.facebook.net; style-src 'self' 'unsafe-inline' https://fonts.googleapis.com https://fonts.gstatic.com; font-src 'self' https://fonts.gstatic.com data:; img-src 'self' data: https: blob:; connect-src 'self' https: https://*.facebook.com https://*.facebook.net; frame-src 'self' https://*.facebook.com https://*.messenger.com; frame-ancestors 'self'; base-uri 'self'; form-action 'self' https://wa.me https://api.whatsapp.com https://*.facebook.com;"
+
+    # Remove server fingerprinting
+    Header unset X-Powered-By
+    Header unset Server
+    Header always unset X-Powered-By
+</IfModule>
+
+# ── Block Malicious Query Strings & URL Attacks ───────────────
+<IfModule mod_rewrite.c>
+    RewriteCond %{QUERY_STRING} (eval\(|base64_decode|UNION.*SELECT|SELECT.*FROM|INSERT.*INTO|DROP.*TABLE|<script|javascript:|vbscript:) [NC,OR]
+    RewriteCond %{QUERY_STRING} (\.\.\/|\.\.\\|%2e%2e%2f|%252e%252e%252f) [NC,OR]
+    RewriteCond %{QUERY_STRING} (\||\`|;|'|"|<|>|\[|\]|\{|\}|\$\() [NC]
+    RewriteRule ^ - [F,L]
+</IfModule>
+
+# ── Block Malicious Request Methods ──────────────────────────
+<IfModule mod_rewrite.c>
+    RewriteCond %{REQUEST_METHOD} ^(TRACE|TRACK|OPTIONS|DELETE|PATCH) [NC]
+    RewriteRule ^ - [F,L]
+</IfModule>
+
+# ── Block Bad Bots & Scrapers ────────────────────────────────
+<IfModule mod_rewrite.c>
+    RewriteCond %{HTTP_USER_AGENT} (havij|nikto|sqlmap|masscan|zgrab|nmap|dirbuster|gobuster|wfuzz|hydra|acunetix|nessus|openvas|^$) [NC]
+    RewriteRule ^ - [F,L]
+</IfModule>
+
+# ── Block Suspicious User-Agents ────────────────────────────
+<IfModule mod_setenvif.c>
+    SetEnvIfNoCase User-Agent "^libwww-perl" bad_bot
+    SetEnvIfNoCase User-Agent "^python-requests" bad_bot
+    SetEnvIfNoCase User-Agent "^wget" bad_bot
+    SetEnvIfNoCase User-Agent "masscan" bad_bot
+    SetEnvIfNoCase User-Agent "nikto" bad_bot
+    SetEnvIfNoCase User-Agent "sqlmap" bad_bot
+    SetEnvIfNoCase User-Agent "havij" bad_bot
+    SetEnvIfNoCase User-Agent "WPScan" bad_bot
+</IfModule>
+<IfModule mod_authz_core.c>
+    <RequireAll>
+        Require all granted
+        Require not env bad_bot
+    </RequireAll>
+</IfModule>
+
+# ── Block Direct Access to Sensitive Files ───────────────────
+<FilesMatch "(^\.env|\.log|\.git|composer\.(json|lock)|package\.json|package-lock\.json|webpack\.config\.js|vite\.config\.(js|ts)|tsconfig\.json|\.htpasswd|wp-config\.php)$">
+    <IfModule mod_authz_core.c>
+        Require all denied
+    </IfModule>
+</FilesMatch>
+
+# ── Disable Directory Listing ────────────────────────────────
+Options -Indexes
+
+# ── Disable Server Signature ─────────────────────────────────
+ServerSignature Off
+
+# ── Prevent Hotlinking of Images ────────────────────────────
+<IfModule mod_rewrite.c>
+    RewriteCond %{HTTP_REFERER} !^$
+    RewriteCond %{HTTP_REFERER} !^https?://(www\.)?miunifyldagroltd\.com [NC]
+    RewriteRule \.(jpg|jpeg|png|gif|webp|svg|ico)$ - [F,L]
+</IfModule>
+
+# ── Rate Limiting (Basic DDoS Mitigation) ────────────────────
+# Block if more than 100 connections from a single IP (mod_evasive handles this
+# at the Apache module level; the rules below add basic RewriteMap protection)
+<IfModule mod_rewrite.c>
+    # Block requests with no User-Agent — typical of bots/DDoS tools
+    RewriteCond %{HTTP_USER_AGENT} ^-?$
+    RewriteRule ^ - [F,L]
+
+    # Block empty Referer attacks (comment out if it breaks something)
+    # RewriteCond %{HTTP_REFERER} ^$
+    # RewriteCond %{REQUEST_URI} !(index\.html|favicon|assets|products)
+    # RewriteRule ^ - [F,L]
+</IfModule>
+
+# ── Block Common WordPress/PHP Attack Probes ─────────────────
+<IfModule mod_rewrite.c>
+    RewriteRule ^(wp-admin|wp-login|wp-config|xmlrpc|phpmyadmin|pma|admin\.php|setup\.php) - [F,L]
+</IfModule>
+
+# ── GZIP Compression (Performance + Security) ────────────────
+<IfModule mod_deflate.c>
+    AddOutputFilterByType DEFLATE text/html text/css application/javascript application/json image/svg+xml text/plain text/xml
+</IfModule>
+
+# ── Browser Caching ──────────────────────────────────────────
+<IfModule mod_expires.c>
+    ExpiresActive On
+    ExpiresByType image/png "access plus 1 month"
+    ExpiresByType image/jpeg "access plus 1 month"
+    ExpiresByType image/webp "access plus 1 month"
+    ExpiresByType image/svg+xml "access plus 1 month"
+    ExpiresByType image/x-icon "access plus 1 year"
+    ExpiresByType application/javascript "access plus 1 week"
+    ExpiresByType text/css "access plus 1 week"
+    ExpiresByType text/html "access plus 0 seconds"
+</IfModule>
+
+# ── Cache-Control Headers ─────────────────────────────────────
+<IfModule mod_headers.c>
+    <FilesMatch "\.(js|css)$">
+        Header set Cache-Control "public, max-age=604800, immutable"
+    </FilesMatch>
+    <FilesMatch "\.(jpg|jpeg|png|gif|webp|ico|svg)$">
+        Header set Cache-Control "public, max-age=2592000"
+    </FilesMatch>
+    <FilesMatch "index\.html$">
+        Header set Cache-Control "no-cache, no-store, must-revalidate"
+        Header set Pragma "no-cache"
+        Header set Expires "0"
+    </FilesMatch>
+</IfModule>
+
+# php -- BEGIN cPanel-generated handler, do not edit
+# Set the “ea-php81” package as the default “PHP” programming language.
+<IfModule mime_module>
+  AddHandler application/x-httpd-ea-php81 .php .php8 .phtml
+</IfModule>
+# php -- END cPanel-generated handler, do not edit
