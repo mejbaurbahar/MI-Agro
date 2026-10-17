@@ -42,7 +42,7 @@ export default function Home() {
         {/* Background Image: Pure authentic commercial agro farm scene */}
         <div className="absolute inset-0 z-0 overflow-hidden">
           <img 
-            src="/hero-farm.jpg" 
+            src="/hero-farm-v2.jpg" 
             className="w-full h-full object-cover object-center scale-100"
             alt="MI Unifyld Agro Farm"
           />
