@@ -50,7 +50,7 @@ const heroSlides = [
     }
   },
   {
-    image: '/hero-farm.jpg',
+    image: '/hero-harvest.jpg',
     tag: { bn: '🌾 টেকসই কৃষি ও খাঁটি খাদ্য', en: '🌾 Sustainable Agriculture & Pure Foods' },
     titlePrefix: { bn: 'খামারি থেকে পরিবার, ', en: 'From Farm to Family, ' },
     titleAccent: { bn: 'নিরাপদ পুষ্টির নিশ্চয়তা', en: 'Guaranteed Safe Nutrition' },
