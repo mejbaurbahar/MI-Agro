@@ -20,6 +20,7 @@ export default function ProductsPage() {
   const titleKey = category === 'poultry' ? 'products.poultry'
     : category === 'sonali' ? 'products.sonali'
     : category === 'cattle' ? 'products.cattle'
+    : category === 'food' ? 'products.food'
     : 'products.title';
 
   const handleDirectOrder = (product: typeof products[0]) => {

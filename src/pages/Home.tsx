@@ -85,8 +85,8 @@ export default function Home() {
 
       {/* Product Categories Section */}
       <section className="py-12 bg-white">
-        <div className="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8">
-          <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
+        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6">
             {/* Poultry Feed */}
             <div className="relative group overflow-hidden rounded-lg border-4 border-[#003399] shadow-2xl">
               <div className="bg-[#003399] text-white py-3 text-center font-black text-xl uppercase tracking-widest">
@@ -140,6 +140,28 @@ export default function Home() {
               <div className="absolute bottom-4 left-1/2 -translate-x-1/2 w-[80%]">
                 <Link to="/products/cattle" className="block w-full bg-[#994d00] text-white py-2 text-center font-bold rounded shadow-lg hover:bg-[#773a00] transition-colors">
                   {t('products.viewCattle')}
+                </Link>
+              </div>
+            </div>
+
+            {/* Food & Beverage */}
+            <div className="relative group overflow-hidden rounded-lg border-4 border-[#c2410c] shadow-2xl">
+              <div className="bg-[#c2410c] text-white py-3 text-center font-black text-xl uppercase tracking-widest">
+                {t('products.foodTitle')}
+              </div>
+              <div className="aspect-video overflow-hidden">
+                <img
+                  src="/food-beverage.png"
+                  alt="Food & Beverage"
+                  className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500"
+                  onError={(e) => {
+                    (e.target as HTMLImageElement).src = '/products/premium-tea.png';
+                  }}
+                />
+              </div>
+              <div className="absolute bottom-4 left-1/2 -translate-x-1/2 w-[80%]">
+                <Link to="/products/food" className="block w-full bg-[#c2410c] text-white py-2 text-center font-bold rounded shadow-lg hover:bg-[#9a3412] transition-colors">
+                  {t('products.viewFood')}
                 </Link>
               </div>
             </div>

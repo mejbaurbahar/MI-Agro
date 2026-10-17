@@ -34,8 +34,11 @@ export default function Navbar() {
     <nav className={`fixed top-0 w-full z-50 transition-all duration-300 ${scrolled ? 'bg-[#003300]/95 backdrop-blur-md shadow-lg py-2' : 'bg-[#003300]/80 py-4'} border-b border-yellow-500/30`}>
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
         <div className="flex justify-between items-center">
-          <Link to="/" className="flex items-center gap-3">
-            <img src="/products/logo.png" alt="MI UNIFYLD AGRO LTD Logo" className="h-12 w-auto object-contain" />
+          <Link to="/" className="flex items-center gap-3 group">
+            <img src="/products/logo.png" alt="MI UNIFYLD AGRO LTD Logo" className="h-11 sm:h-12 w-auto object-contain group-hover:scale-105 transition-transform" />
+            <span className="text-white font-black text-base sm:text-lg md:text-xl tracking-wider leading-tight drop-shadow-sm whitespace-nowrap">
+              MI Unifyld Agro Ltd.
+            </span>
           </Link>
 
           {/* Desktop Nav */}
