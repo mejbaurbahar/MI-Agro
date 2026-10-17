@@ -3,6 +3,7 @@ import { Product } from '../data/products';
 import { useLanguage } from './LanguageContext';
 import { toast } from 'sonner';
 import { trackNerjaEvent } from '../utils/nerja';
+import { trackMetaAddToCart } from '../utils/metaPixel';
 
 export interface CartItem {
   product: Product;
@@ -79,6 +80,16 @@ export const CartProvider: React.FC<{ children: React.ReactNode }> = ({ children
       price: product.price || 0,
       quantity,
     });
+
+    trackMetaAddToCart(
+      {
+        id: product.id,
+        name: product.en.name,
+        price: product.price,
+        category: product.category,
+      },
+      quantity
+    );
   };
 
   const removeFromCart = (productId: string) => {

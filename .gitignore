@@ -9,3 +9,4 @@ coverage/
 email-forwarder/logs/
 __pycache__/
 *.pyc
+*.zip

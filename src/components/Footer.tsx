@@ -2,6 +2,7 @@ import { Phone, Mail, MapPin, Facebook, MessageSquare } from 'lucide-react';
 import { Link } from 'react-router-dom';
 import { useLanguage } from '../context/LanguageContext';
 import { products } from '../data/products';
+import { trackMetaContact } from '../utils/metaPixel';
 
 export default function Footer() {
   const { t, language } = useLanguage();
@@ -18,10 +19,26 @@ export default function Footer() {
               {t('footer.about')}
             </p>
             <div className="flex gap-4">
-              <a href="#" className="w-8 h-8 rounded-full bg-slate-800 flex items-center justify-center hover:bg-orange-500 hover:text-white transition-colors">
+              <a
+                href="https://www.facebook.com/profile.php?id=61594281573717"
+                target="_blank"
+                rel="noreferrer"
+                onClick={() => trackMetaContact('Facebook_Page_Footer')}
+                className="w-8 h-8 rounded-full bg-slate-800 flex items-center justify-center hover:bg-[#1877F2] hover:text-white transition-colors"
+                title="Facebook Page"
+                aria-label="Facebook Page"
+              >
                 <Facebook size={18} />
               </a>
-              <a href="#" className="w-8 h-8 rounded-full bg-slate-800 flex items-center justify-center hover:bg-orange-500 hover:text-white transition-colors">
+              <a
+                href="https://m.me/61594281573717"
+                target="_blank"
+                rel="noreferrer"
+                onClick={() => trackMetaContact('Facebook_Messenger_Footer')}
+                className="w-8 h-8 rounded-full bg-slate-800 flex items-center justify-center hover:bg-[#0084FF] hover:text-white transition-colors"
+                title="Facebook Messenger"
+                aria-label="Facebook Messenger"
+              >
                 <MessageSquare size={18} />
               </a>
             </div>

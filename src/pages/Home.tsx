@@ -6,6 +6,7 @@ import { ArrowRight, Star, Shield, Zap, Eye, TrendingUp, ShieldCheck, ChevronLef
 import { useLanguage } from '../context/LanguageContext';
 import { useCart } from '../context/CartContext';
 import { products } from '../data/products';
+import { trackMetaViewContent } from '../utils/metaPixel';
 
 const heroSlides = [
   {
@@ -236,7 +237,11 @@ export default function Home() {
                 itemScope
                 itemType="https://schema.org/Product"
               >
-                <Link to={`/product/${product.id}`} className="relative aspect-[4/3] md:aspect-[4/5] overflow-hidden block">
+                <Link
+                  to={`/product/${product.id}`}
+                  onClick={() => trackMetaViewContent({ id: product.id, name: product.en.name, price: product.price, category: product.category })}
+                  className="relative aspect-[4/3] md:aspect-[4/5] overflow-hidden block"
+                >
                   <div className={`absolute inset-0 bg-gradient-to-br ${product.color} opacity-10 group-hover:opacity-20 transition-opacity`} />
                   <img
                     src={`/products/${product.id}.png`}

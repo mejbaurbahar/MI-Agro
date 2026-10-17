@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { Helmet } from 'react-helmet-async';
 import { Link, useNavigate } from 'react-router-dom';
 import { motion } from 'motion/react';
@@ -24,6 +24,7 @@ import { useCart } from '../context/CartContext';
 import { useLanguage } from '../context/LanguageContext';
 import { toast } from 'sonner';
 import { trackNerjaEvent } from '../utils/nerja';
+import { trackMetaInitiateCheckout, trackMetaPurchase } from '../utils/metaPixel';
 
 interface OrderSuccessData {
   orderId: string;
@@ -61,6 +62,13 @@ export default function Checkout() {
   const [paymentMethod, setPaymentMethod] = useState<'cod'>('cod');
   const [isSubmitting, setIsSubmitting] = useState(false);
   const [completedOrder, setCompletedOrder] = useState<OrderSuccessData | null>(null);
+
+  // Track Meta Pixel InitiateCheckout
+  useEffect(() => {
+    if (items.length > 0) {
+      trackMetaInitiateCheckout(totalItems, subtotal);
+    }
+  }, []);
 
   const handleInputChange = (e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>) => {
     const { name, value } = e.target;
@@ -207,6 +215,19 @@ export default function Checkout() {
     if (formData.email.trim()) {
       trackNerjaEvent('email_captured', { email: formData.email.trim() });
     }
+
+    // Track Meta Pixel Purchase event
+    trackMetaPurchase({
+      orderId,
+      value: subtotal,
+      numItems: totalItems,
+      items: items.map((i) => ({
+        id: i.product.id,
+        name: i.product.en.name,
+        price: i.product.price || 0,
+        quantity: i.quantity,
+      })),
+    });
 
     setCompletedOrder(orderSuccessRecord);
     clearCart();

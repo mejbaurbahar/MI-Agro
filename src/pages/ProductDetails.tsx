@@ -1,10 +1,11 @@
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 import { useParams, Link, useNavigate } from 'react-router-dom';
 import { Helmet } from 'react-helmet-async';
 import { products } from '../data/products';
 import { motion } from 'motion/react';
 import { useLanguage } from '../context/LanguageContext';
 import { useCart } from '../context/CartContext';
+import { trackMetaViewContent, trackMetaContact } from '../utils/metaPixel';
 import { 
   ArrowLeft, 
   CheckCircle2, 
@@ -45,6 +46,18 @@ export default function ProductDetails() {
 
   const content = product[language];
   const productImage = `/products/${product.id}.png`;
+
+  // Track Meta ViewContent for retargeting / automated messaging
+  useEffect(() => {
+    if (product) {
+      trackMetaViewContent({
+        id: product.id,
+        name: product.en.name,
+        price: product.price,
+        category: product.category,
+      });
+    }
+  }, [product?.id]);
 
   const handleDirectOrder = () => {
     addToCart(product, quantity);
@@ -330,13 +343,39 @@ export default function ProductDetails() {
               <div className="pt-6 border-t border-slate-100">
                 <p className="text-xs font-bold text-slate-900 mb-3">{t('details.interested')}</p>
                 <div className="space-y-2.5">
-                  <a href={`https://wa.me/8801817875139?text=${encodeURIComponent(`Hello MI UNIFYLD AGRO LTD, I want to inquire about ${content.name}`)}`} target="_blank" rel="noreferrer" className="flex items-center justify-center gap-2.5 w-full py-3 bg-green-500 text-white rounded-xl font-bold hover:bg-green-600 transition-all text-xs">
+                  <a
+                    href={`https://m.me/61594281573717?ref=${encodeURIComponent(product.id)}`}
+                    target="_blank"
+                    rel="noreferrer"
+                    onClick={() => trackMetaContact('Facebook_Messenger_Product', { product_id: product.id, product_name: content.name })}
+                    className="flex items-center justify-center gap-2.5 w-full py-3 bg-[#0084FF] text-white rounded-xl font-bold hover:bg-[#0073e6] transition-all text-xs shadow-sm"
+                  >
+                    <svg className="w-4 h-4 fill-current" viewBox="0 0 24 24">
+                      <path d="M12 2C6.477 2 2 6.145 2 11.258c0 2.914 1.455 5.518 3.735 7.152V22l3.447-1.892c.905.251 1.865.388 2.818.388 5.523 0 10-4.145 10-9.258C22 6.145 17.523 2 12 2zm1.002 12.443l-2.557-2.727-4.993 2.727 5.49-5.83 2.62 2.728 4.93-2.728-5.49 5.83z" />
+                    </svg>
+                    <span>{language === 'bn' ? 'ফেসবুক মেসেঞ্জারে সরাসরি কথা বলুন' : 'Chat on Facebook Messenger'}</span>
+                  </a>
+                  <a
+                    href={`https://wa.me/8801817875139?text=${encodeURIComponent(`Hello MI UNIFYLD AGRO LTD, I want to inquire about ${content.name}`)}`}
+                    target="_blank"
+                    rel="noreferrer"
+                    onClick={() => trackMetaContact('WhatsApp_Product', { product_id: product.id })}
+                    className="flex items-center justify-center gap-2.5 w-full py-3 bg-green-500 text-white rounded-xl font-bold hover:bg-green-600 transition-all text-xs"
+                  >
                     <MessageSquare size={16} /> <span>{t('contact.whatsapp')}</span>
                   </a>
-                  <a href="tel:+8801817875139" className="flex items-center justify-center gap-2.5 w-full py-3 bg-slate-100 text-slate-800 rounded-xl font-bold hover:bg-slate-200 transition-all text-xs">
+                  <a
+                    href="tel:+8801817875139"
+                    onClick={() => trackMetaContact('Hotline_Call_Product', { product_id: product.id })}
+                    className="flex items-center justify-center gap-2.5 w-full py-3 bg-slate-100 text-slate-800 rounded-xl font-bold hover:bg-slate-200 transition-all text-xs"
+                  >
                     <Phone size={16} /> <span>{t('nav.callNow')}</span>
                   </a>
-                  <a href="mailto:info@miunifyldagroltd.com" className="flex items-center justify-center gap-2.5 w-full py-3 bg-slate-50 text-slate-600 rounded-xl font-bold hover:bg-slate-100 transition-all text-xs">
+                  <a
+                    href="mailto:info@miunifyldagroltd.com"
+                    onClick={() => trackMetaContact('Email_Inquiry_Product', { product_id: product.id })}
+                    className="flex items-center justify-center gap-2.5 w-full py-3 bg-slate-50 text-slate-600 rounded-xl font-bold hover:bg-slate-100 transition-all text-xs"
+                  >
                     <Mail size={16} /> <span>{t('details.sendEmail')}</span>
                   </a>
                 </div>

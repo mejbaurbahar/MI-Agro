@@ -4,6 +4,7 @@ import { useLanguage } from '../context/LanguageContext';
 import { Phone, Mail, MapPin, MessageSquare, Send } from 'lucide-react';
 import { toast } from 'sonner';
 import React, { useState } from 'react';
+import { trackMetaLead, trackMetaContact } from '../utils/metaPixel';
 
 export default function Contact() {
   const { t } = useLanguage();
@@ -28,6 +29,11 @@ export default function Contact() {
 
       if (response.ok) {
         toast.success(t('contact.success') || 'Message sent successfully!');
+        trackMetaLead('Contact_Form', {
+          name: data.name,
+          phone: data.phone,
+          email: data.email,
+        });
         (e.target as HTMLFormElement).reset();
       } else {
         toast.error(t('contact.error') || 'Failed to send message. Please try again.');
@@ -105,7 +111,13 @@ export default function Contact() {
                     </div>
                     <span className="font-black uppercase text-sm">{t('contact.whatsapp')}</span>
                   </a>
-                  <a href="#" className="flex items-center gap-4 bg-white/10 p-5 rounded-xl hover:bg-white/20 transition-all border border-white/10">
+                  <a
+                    href="https://m.me/61594281573717"
+                    target="_blank"
+                    rel="noreferrer"
+                    onClick={() => trackMetaContact('Facebook_Messenger_Contact_Page')}
+                    className="flex items-center gap-4 bg-white/10 p-5 rounded-xl hover:bg-white/20 transition-all border border-white/10"
+                  >
                     <div className="w-10 h-10 bg-blue-500 rounded-lg flex items-center justify-center shadow-lg">
                       <MessageSquare size={20} className="text-white" />
                     </div>

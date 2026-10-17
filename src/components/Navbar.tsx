@@ -4,6 +4,7 @@ import { Menu, X, Phone, Mail, Globe, ShoppingBag } from 'lucide-react';
 import { motion, AnimatePresence } from 'motion/react';
 import { useLanguage } from '../context/LanguageContext';
 import { useCart } from '../context/CartContext';
+import { trackMetaContact } from '../utils/metaPixel';
 
 export default function Navbar() {
   const [isOpen, setIsOpen] = useState(false);
@@ -155,7 +156,11 @@ export default function Navbar() {
                   <ShoppingBag size={18} />
                   <span>{t('order.directOrder')}</span>
                 </Link>
-                <a href="tel:+8801817875139" className="flex items-center justify-center gap-2 bg-slate-900 text-white py-3 rounded-xl font-bold">
+                <a
+                  href="tel:+8801817875139"
+                  onClick={() => trackMetaContact('Hotline_Call_Navbar')}
+                  className="flex items-center justify-center gap-2 bg-slate-900 text-white py-3 rounded-xl font-bold"
+                >
                   <Phone size={20} /> {t('nav.callNow')}
                 </a>
                 <a href="mailto:info@miunifyldagroltd.com" className="flex items-center justify-center gap-2 bg-slate-100 text-slate-700 py-3 rounded-xl font-bold">
