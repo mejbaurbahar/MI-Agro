@@ -56,25 +56,25 @@ export default function CustomerEngagementWidget() {
       <AnimatePresence>
         {isOpen && (
           <motion.div
-            initial={{ opacity: 0, y: 20, scale: 0.9 }}
+            initial={{ opacity: 0, y: 20, scale: 0.95 }}
             animate={{ opacity: 1, y: 0, scale: 1 }}
-            exit={{ opacity: 0, y: 20, scale: 0.9 }}
+            exit={{ opacity: 0, y: 20, scale: 0.95 }}
             transition={{ type: 'spring', damping: 25, stiffness: 300 }}
-            className="mb-3 w-80 md:w-96 bg-white rounded-2xl shadow-2xl border border-slate-200 overflow-hidden text-slate-800"
+            className="mb-3 w-80 md:w-96 bg-white/95 backdrop-blur-2xl rounded-3xl shadow-2xl border border-slate-200/80 overflow-hidden text-slate-800"
           >
-            {/* Header */}
-            <div className="bg-gradient-to-r from-[#003300] to-[#004d00] p-4 text-white relative flex items-center justify-between">
+            {/* Header - Apple Dark Frosted Glass */}
+            <div className="bg-slate-950/95 backdrop-blur-xl p-4 text-white relative flex items-center justify-between border-b border-white/10">
               <div className="flex items-center gap-2.5">
-                <div className="w-9 h-9 rounded-full bg-white/20 flex items-center justify-center backdrop-blur-sm">
-                  <Sparkles size={18} className="text-yellow-400" />
+                <div className="w-8 h-8 rounded-full bg-white/10 flex items-center justify-center backdrop-blur-md">
+                  <Sparkles size={16} className="text-orange-400" />
                 </div>
                 <div>
-                  <h4 className="font-bold text-sm leading-tight">
-                    {language === 'bn' ? 'এমআই এগ্রো কাস্টমার হেল্প' : 'MI Agro Customer Help'}
+                  <h4 className="font-semibold text-sm leading-tight tracking-tight">
+                    {language === 'bn' ? 'এমআই এগ্রো কাস্টমার হেল্প' : 'MI Agro Advisory'}
                   </h4>
-                  <p className="text-[11px] text-green-200 flex items-center gap-1.5 mt-0.5">
-                    <span className="w-2 h-2 rounded-full bg-emerald-400 animate-pulse"></span>
-                    {language === 'bn' ? 'অনলাইন সাপোর্ট চালু আছে' : 'Online & Ready to Help'}
+                  <p className="text-[11px] text-emerald-400 flex items-center gap-1.5 mt-0.5 font-medium">
+                    <span className="w-1.5 h-1.5 rounded-full bg-emerald-400 animate-pulse"></span>
+                    {language === 'bn' ? 'অনলাইন সাপোর্ট সক্রিয়' : 'Online & Ready to Help'}
                   </p>
                 </div>
               </div>
@@ -83,16 +83,16 @@ export default function CustomerEngagementWidget() {
                   setIsOpen(false);
                   setIsDismissed(true);
                 }}
-                className="text-white/80 hover:text-white p-1 rounded-full hover:bg-white/10 transition-colors"
+                className="text-white/60 hover:text-white p-1.5 rounded-full hover:bg-white/10 transition-colors"
                 aria-label="Close"
               >
-                <X size={18} />
+                <X size={16} />
               </button>
             </div>
 
             {/* Body */}
-            <div className="p-4 space-y-3 bg-slate-50/50">
-              <p className="text-xs text-slate-600 leading-relaxed font-medium">
+            <div className="p-4 space-y-3 bg-white/70">
+              <p className="text-xs text-slate-600 leading-relaxed font-normal">
                 {language === 'bn'
                   ? 'খামারের জন্য সঠিক ফিড নির্বাচনে সহায়তা চান, বা সরাসরি অর্ডার করতে চান? আমাদের সাথে কথা বলুন:'
                   : 'Need guidance choosing the right feed for your farm, or ready to place an order? Contact us directly:'}
@@ -103,7 +103,7 @@ export default function CustomerEngagementWidget() {
                 {/* Facebook Messenger */}
                 <button
                   onClick={handleMessengerClick}
-                  className="w-full flex items-center justify-center gap-2.5 bg-[#0084FF] hover:bg-[#0073e6] text-white py-2.5 px-4 rounded-xl font-bold text-xs shadow-md shadow-blue-500/20 transition-all hover:scale-[1.02]"
+                  className="w-full flex items-center justify-center gap-2.5 bg-[#0084FF] hover:bg-[#0073e6] text-white py-2.5 px-4 rounded-2xl font-semibold text-xs shadow-sm transition-all hover:scale-[1.01]"
                 >
                   <svg className="w-4 h-4 fill-current" viewBox="0 0 24 24">
                     <path d="M12 2C6.477 2 2 6.145 2 11.258c0 2.914 1.455 5.518 3.735 7.152V22l3.447-1.892c.905.251 1.865.388 2.818.388 5.523 0 10-4.145 10-9.258C22 6.145 17.523 2 12 2zm1.002 12.443l-2.557-2.727-4.993 2.727 5.49-5.83 2.62 2.728 4.93-2.728-5.49 5.83z" />
@@ -116,7 +116,7 @@ export default function CustomerEngagementWidget() {
                 {/* WhatsApp */}
                 <button
                   onClick={handleWhatsAppClick}
-                  className="w-full flex items-center justify-center gap-2 bg-[#25D366] hover:bg-[#20ba5a] text-white py-2 px-4 rounded-xl font-bold text-xs shadow-sm transition-all hover:scale-[1.02]"
+                  className="w-full flex items-center justify-center gap-2 bg-[#25D366] hover:bg-[#20ba5a] text-white py-2.5 px-4 rounded-2xl font-semibold text-xs shadow-sm transition-all hover:scale-[1.01]"
                 >
                   <MessageSquare size={16} />
                   <span>
@@ -127,7 +127,7 @@ export default function CustomerEngagementWidget() {
                 {/* Direct Phone Call */}
                 <button
                   onClick={handleCallClick}
-                  className="w-full flex items-center justify-center gap-2 bg-slate-900 hover:bg-black text-white py-2 px-4 rounded-xl font-bold text-xs transition-all hover:scale-[1.02]"
+                  className="w-full flex items-center justify-center gap-2 bg-slate-900 hover:bg-black text-white py-2.5 px-4 rounded-2xl font-semibold text-xs transition-all hover:scale-[1.01]"
                 >
                   <Phone size={15} />
                   <span>

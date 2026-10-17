@@ -10,18 +10,18 @@ import {
   ArrowLeft, 
   CheckCircle2, 
   Zap, 
-  TrendingUp, 
-  ShieldCheck, 
   Package, 
   Clock, 
   Droplets, 
-  Wind,
-  MessageSquare,
-  Phone,
-  Mail,
-  ShoppingBag,
-  Plus,
-  Minus
+  Wind, 
+  MessageSquare, 
+  Phone, 
+  Mail, 
+  ShoppingBag, 
+  Plus, 
+  Minus,
+  Sparkles,
+  ArrowRight
 } from 'lucide-react';
 
 export default function ProductDetails() {
@@ -35,10 +35,10 @@ export default function ProductDetails() {
 
   if (!product) {
     return (
-      <div className="min-h-screen flex flex-col items-center justify-center p-4">
-        <h1 className="text-2xl font-bold mb-4">{t('details.notFound')}</h1>
-        <Link to="/" className="text-orange-500 font-bold flex items-center gap-2">
-          <ArrowLeft size={20} /> {t('404.back')}
+      <div className="min-h-screen flex flex-col items-center justify-center p-4 bg-[#fbfbfd]">
+        <h1 className="text-xl font-bold mb-4 text-slate-900">{t('details.notFound')}</h1>
+        <Link to="/" className="inline-flex items-center gap-2 px-5 py-2.5 rounded-full bg-slate-900 text-white text-xs font-semibold">
+          <ArrowLeft size={16} /> {t('404.back')}
         </Link>
       </div>
     );
@@ -65,81 +65,97 @@ export default function ProductDetails() {
   };
 
   return (
-    <div className="pt-20 pb-20 md:pb-24 bg-slate-50 product-card" data-product-id={product.id} itemScope itemType="https://schema.org/Product">
+    <div className="bg-[#fbfbfd] text-slate-900 min-h-screen product-card" data-product-id={product.id} itemScope itemType="https://schema.org/Product">
       <Helmet>
         <title>{`${content.name} | MI UNIFYLD AGRO LTD`}</title>
         <meta name="description" content={content.tagline} />
       </Helmet>
-      {/* Header Section */}
-      <div className={`bg-gradient-to-br ${product.color} text-white py-12 md:py-24 relative overflow-hidden`}>
-        <div className="absolute inset-0 opacity-10 pointer-events-none">
-          <div className="absolute top-0 right-0 w-96 h-96 bg-white rounded-full -mr-48 -mt-48 blur-3xl"></div>
-          <div className="absolute bottom-0 left-0 w-96 h-96 bg-black rounded-full -ml-48 -mb-48 blur-3xl"></div>
-        </div>
+
+      {/* Hero Showcase — Apple Keynote Product Stage */}
+      <section className="relative pt-28 pb-16 md:pt-36 md:pb-24 bg-gradient-to-b from-slate-950 via-slate-900 to-slate-950 text-white overflow-hidden border-b border-white/[0.08]">
+        {/* Soft Ambient Radial Background Lights */}
+        <div className="absolute top-1/3 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[550px] h-[300px] bg-emerald-500/10 rounded-full blur-[100px] pointer-events-none" />
 
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 relative z-10">
-          <Link to="/" className="inline-flex items-center gap-2 text-white/80 hover:text-white mb-6 md:mb-8 transition-colors font-medium text-sm md:text-base">
-            <ArrowLeft size={18} /> {t('details.back')}
+          {/* Breadcrumb Pill */}
+          <Link
+            to="/products/all"
+            className="inline-flex items-center gap-1.5 px-3.5 py-1.5 rounded-full bg-white/[0.06] hover:bg-white/[0.12] text-slate-300 hover:text-white border border-white/[0.08] text-xs font-semibold mb-8 transition-colors"
+          >
+            <ArrowLeft size={13} />
+            <span>{t('details.back')}</span>
           </Link>
-          <div className="grid grid-cols-1 lg:grid-cols-2 gap-8 md:gap-12 items-center">
+
+          <div className="grid grid-cols-1 lg:grid-cols-2 gap-10 lg:gap-16 items-center">
+            {/* Left Column: Product Information */}
             <motion.div
               initial={{ opacity: 0, y: 20 }}
               animate={{ opacity: 1, y: 0 }}
               transition={{ duration: 0.6 }}
             >
-              <span className="bg-white/20 backdrop-blur-md text-white text-[10px] md:text-xs font-bold uppercase tracking-widest py-1.5 px-4 rounded-full mb-4 md:mb-6 inline-block">
-                {content.phase}
-              </span>
-              <h1 itemProp="name" className="text-3xl md:text-6xl font-black mb-4 md:mb-6 leading-tight product-title">
+              <div className="inline-flex items-center gap-2 px-3.5 py-1 rounded-full bg-white/[0.08] border border-white/[0.12] text-emerald-300 text-[11px] font-semibold tracking-tight mb-4 backdrop-blur-md">
+                <Sparkles size={12} />
+                <span>{content.phase}</span>
+              </div>
+
+              <h1 itemProp="name" className="text-3xl sm:text-5xl lg:text-6xl font-bold tracking-tight mb-4 leading-[1.1] product-title">
                 {content.name}
               </h1>
-              <p itemProp="description" className="text-lg md:text-2xl font-medium text-white/90 mb-6 md:mb-8 italic leading-relaxed">
+
+              <p itemProp="description" className="text-base sm:text-lg text-slate-300 italic mb-8 leading-relaxed">
                 "{content.tagline}"
               </p>
-              <div className="flex flex-wrap gap-4 md:gap-6">
-                <div className="flex items-center gap-3">
-                  <div className="w-10 h-10 bg-white/20 rounded-xl flex items-center justify-center">
-                    <Clock size={20} />
-                  </div>
+
+              {/* Quick Spec Pills */}
+              <div className="flex flex-wrap gap-3">
+                <div className="flex items-center gap-2.5 px-4 py-2.5 rounded-2xl bg-white/[0.06] border border-white/[0.08]">
+                  <Clock size={16} className="text-emerald-400" />
                   <div>
-                    <p className="text-[10px] uppercase tracking-wider opacity-70">{t('details.duration')}</p>
-                    <p className="font-bold text-sm md:text-base">{content.duration}</p>
+                    <p className="text-[10px] uppercase tracking-wider text-slate-400">{t('details.duration')}</p>
+                    <p className="text-xs font-semibold text-white">{content.duration}</p>
                   </div>
                 </div>
-                <div className="flex items-center gap-3">
-                  <div className="w-10 h-10 bg-white/20 rounded-xl flex items-center justify-center">
-                    <Package size={20} />
-                  </div>
+
+                <div className="flex items-center gap-2.5 px-4 py-2.5 rounded-2xl bg-white/[0.06] border border-white/[0.08]">
+                  <Package size={16} className="text-emerald-400" />
                   <div>
-                    <p className="text-[10px] uppercase tracking-wider opacity-70">{t('details.packaging')}</p>
-                    <p className="font-bold text-sm md:text-base">{content.bagSize}</p>
+                    <p className="text-[10px] uppercase tracking-wider text-slate-400">{t('details.packaging')}</p>
+                    <p className="text-xs font-semibold text-white">{content.bagSize}</p>
                   </div>
                 </div>
               </div>
             </motion.div>
-            
+
+            {/* Right Column: Studio Showcase Container */}
             <motion.div
-              initial={{ opacity: 0, scale: 0.9 }}
+              initial={{ opacity: 0, scale: 0.95 }}
               animate={{ opacity: 1, scale: 1 }}
-              transition={{ duration: 0.6, delay: 0.2 }}
+              transition={{ duration: 0.6, delay: 0.15 }}
               className="relative"
             >
-              <div className="bg-white/10 backdrop-blur-lg border border-white/20 p-4 md:p-8 rounded-[2rem] md:rounded-[2.5rem] shadow-2xl overflow-hidden">
-                <img 
-                  src={productImage} 
+              <div className="relative aspect-[4/5] max-w-md mx-auto bg-gradient-to-b from-white/[0.08] to-white/[0.02] p-8 sm:p-12 rounded-[2.5rem] border border-white/[0.1] shadow-2xl flex items-center justify-center overflow-hidden">
+                <img
+                  src={productImage}
                   alt={content.name}
                   width={600}
                   height={600}
                   itemProp="image"
-                  className="w-full h-64 md:h-96 object-cover rounded-2xl md:rounded-3xl shadow-lg"
+                  className="w-full h-full object-contain drop-shadow-[0_20px_30px_rgba(0,0,0,0.4)]"
                   onError={(e) => {
                     (e.target as HTMLElement).style.display = 'none';
                   }}
                 />
-                <div className="absolute bottom-8 right-8 md:bottom-12 md:right-12">
-                  <div className="bg-white text-slate-900 p-4 sm:p-5 rounded-2xl shadow-xl flex flex-col items-center border border-slate-100" itemProp="offers" itemScope itemType="https://schema.org/Offer">
-                    <p className="text-[10px] font-black uppercase tracking-tighter text-slate-400">{t('products.price')}</p>
-                    <p className="text-xl sm:text-2xl font-black text-orange-600 price-tag">
+
+                {/* Floating Price Tag */}
+                <div className="absolute bottom-6 right-6">
+                  <div
+                    className="bg-white/95 apple-blur text-slate-900 px-4 py-2.5 rounded-2xl shadow-xl border border-slate-200/60 flex flex-col items-end"
+                    itemProp="offers"
+                    itemScope
+                    itemType="https://schema.org/Offer"
+                  >
+                    <p className="text-[10px] font-bold uppercase tracking-wider text-slate-400">{t('products.price')}</p>
+                    <p className="text-lg font-bold text-slate-900 price-tag">
                       {product.price ? (
                         <span itemProp="price" content={String(product.price)}>
                           {formatPrice(product.price)}
@@ -148,49 +164,54 @@ export default function ProductDetails() {
                         t('products.callForPrice')
                       )}
                     </p>
-                    {product.price && (
-                      <span className="text-[10px] text-slate-400 font-bold uppercase mt-0.5">
-                        {content.bagSize}
-                      </span>
-                    )}
                   </div>
                 </div>
               </div>
             </motion.div>
           </div>
         </div>
-      </div>
+      </section>
 
-      {/* Content Section */}
-      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 -mt-6 md:-mt-10 relative z-20">
-        <div className="grid grid-cols-1 lg:grid-cols-3 gap-6 md:gap-8">
-          {/* Left Column - Main Info */}
-          <div className="lg:col-span-2 space-y-6 md:space-y-8">
-            <section className="bg-white p-6 md:p-12 rounded-[1.5rem] md:rounded-[2.5rem] shadow-sm border border-slate-100">
-              <h2 className="text-xl md:text-2xl font-bold text-slate-900 mb-4 md:mb-6">{t('details.overview')}</h2>
-              <p className="text-slate-600 leading-relaxed mb-6 md:mb-8 text-sm md:text-base">
+      {/* Main Content & Specs Grid — Apple Tech Specs Layout */}
+      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-16 sm:py-24">
+        <div className="grid grid-cols-1 lg:grid-cols-3 gap-10 lg:gap-14">
+          
+          {/* Left Column: Tech Specs & Overview (2 cols) */}
+          <div className="lg:col-span-2 space-y-10">
+            {/* Overview Section */}
+            <section className="bg-white p-8 sm:p-12 rounded-3xl border border-slate-200/70 shadow-xs">
+              <h2 className="text-xl sm:text-2xl font-bold text-slate-900 mb-4">
+                {t('details.overview')}
+              </h2>
+              <p className="text-slate-600 leading-relaxed text-sm sm:text-base">
                 {content.description}
               </p>
-              
-              <div className="grid grid-cols-1 md:grid-cols-2 gap-6 md:gap-8">
+
+              {/* Physical Characteristics & Growth Performance */}
+              <div className="mt-10 grid grid-cols-1 md:grid-cols-2 gap-8 pt-8 border-t border-slate-100">
                 <div>
-                  <h3 className="text-[10px] md:text-xs font-bold uppercase tracking-widest text-orange-500 mb-4">{t('details.characteristics')}</h3>
-                  <div className="space-y-2 md:space-y-3">
+                  <h3 className="text-xs font-bold uppercase tracking-wider text-emerald-700 mb-4">
+                    {t('details.characteristics')}
+                  </h3>
+                  <div className="divide-y divide-slate-100">
                     {content.characteristics.map((c, i) => (
-                      <div key={i} className="flex justify-between items-center py-2 border-b border-slate-50">
-                        <span className="text-slate-500 text-xs md:text-sm">{c.label}</span>
-                        <span className="text-slate-900 font-semibold text-xs md:text-sm">{c.value}</span>
+                      <div key={i} className="flex justify-between items-center py-2.5 text-xs sm:text-sm">
+                        <span className="text-slate-500 font-medium">{c.label}</span>
+                        <span className="text-slate-900 font-semibold">{c.value}</span>
                       </div>
                     ))}
                   </div>
                 </div>
+
                 <div>
-                  <h3 className="text-[10px] md:text-xs font-bold uppercase tracking-widest text-green-500 mb-4">{t('details.performance')}</h3>
-                  <div className="space-y-2 md:space-y-3">
+                  <h3 className="text-xs font-bold uppercase tracking-wider text-emerald-700 mb-4">
+                    {t('details.performance')}
+                  </h3>
+                  <div className="divide-y divide-slate-100">
                     {content.performance.map((p, i) => (
-                      <div key={i} className="flex justify-between items-center py-2 border-b border-slate-50">
-                        <span className="text-slate-500 text-xs md:text-sm">{p.label}</span>
-                        <span className="text-slate-900 font-semibold text-xs md:text-sm">{p.value}</span>
+                      <div key={i} className="flex justify-between items-center py-2.5 text-xs sm:text-sm">
+                        <span className="text-slate-500 font-medium">{p.label}</span>
+                        <span className="text-slate-900 font-semibold">{p.value}</span>
                       </div>
                     ))}
                   </div>
@@ -198,211 +219,227 @@ export default function ProductDetails() {
               </div>
             </section>
 
-            <section className="bg-white p-6 md:p-12 rounded-[1.5rem] md:rounded-[2.5rem] shadow-sm border border-slate-100">
-              <h2 className="text-xl md:text-2xl font-bold text-slate-900 mb-4 md:mb-6">{t('details.nutritional')}</h2>
-              <div className="grid grid-cols-2 md:grid-cols-4 gap-3 md:gap-4">
+            {/* Nutritional Analysis Table */}
+            <section className="bg-white p-8 sm:p-12 rounded-3xl border border-slate-200/70 shadow-xs">
+              <h2 className="text-xl sm:text-2xl font-bold text-slate-900 mb-6">
+                {t('details.nutritional')}
+              </h2>
+              <div className="grid grid-cols-2 md:grid-cols-4 gap-3 sm:gap-4">
                 {content.nutritional.map((n, i) => (
-                  <div key={i} className="bg-slate-50 p-3 md:p-4 rounded-xl md:rounded-2xl text-center">
-                    <p className="text-[8px] md:text-[10px] uppercase tracking-wider text-slate-500 mb-1">{n.label}</p>
-                    <p className="text-xs md:text-sm font-bold text-slate-900">{n.value}</p>
+                  <div key={i} className="bg-slate-50/80 p-4 rounded-2xl border border-slate-100 text-center">
+                    <p className="text-[10px] uppercase tracking-wider text-slate-400 font-medium mb-1">
+                      {n.label}
+                    </p>
+                    <p className="text-sm font-bold text-slate-900">
+                      {n.value}
+                    </p>
                   </div>
                 ))}
               </div>
             </section>
 
-            <section className="bg-slate-900 text-white p-6 md:p-12 rounded-[1.5rem] md:rounded-[2.5rem] shadow-xl">
-              <h2 className="text-xl md:text-2xl font-bold mb-6 md:mb-8">{t('details.seasonal')}</h2>
-              <div className="grid grid-cols-1 md:grid-cols-3 gap-6 md:gap-8">
-                <div className="space-y-3 md:space-y-4">
-                  <div className="flex items-center gap-3 text-orange-400">
-                    <Zap size={20} />
-                    <h3 className="font-bold uppercase tracking-widest text-[10px] md:text-xs">{t('details.summer')}</h3>
+            {/* Multi-Season Environmental Stability */}
+            <section className="bg-slate-950 text-white p-8 sm:p-12 rounded-3xl border border-white/[0.08] shadow-xl">
+              <div className="mb-8">
+                <span className="text-xs font-bold uppercase tracking-widest text-emerald-400 mb-1 block">
+                  {language === 'bn' ? 'আবহাওয়া অভিযোজন' : 'Climate Resilience'}
+                </span>
+                <h2 className="text-xl sm:text-2xl font-bold tracking-tight">
+                  {t('details.seasonal')}
+                </h2>
+              </div>
+
+              <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
+                <div className="p-5 rounded-2xl bg-white/[0.04] border border-white/[0.08]">
+                  <div className="flex items-center gap-2 text-amber-400 mb-3">
+                    <Zap size={18} />
+                    <h3 className="text-xs font-bold tracking-wide">{t('details.summer')}</h3>
                   </div>
-                  <p className="text-xs md:text-sm text-slate-400 leading-relaxed">
+                  <p className="text-xs text-slate-300 leading-relaxed">
                     {language === 'bn' 
-                      ? 'বেটেইন + ইলেক্ট্রোলাইট → হিট স্ট্রেস সুরক্ষা। পানিশূন্যতা ও ফিড রিজেকশন কম হয়।' 
-                      : 'Betaine + Electrolyte → Heat stress protection. Reduced water loss and feed rejection.'}
+                      ? 'বেটেইন + ইলেক্ট্রোলাইট ফর্মুলা যা হিট স্ট্রেস কমায় এবং পানিশূন্যতা রোধ করে।' 
+                      : 'Betaine + Electrolytes provide heat stress defense and prevent feed refusal.'}
                   </p>
                 </div>
-                <div className="space-y-3 md:space-y-4">
-                  <div className="flex items-center gap-3 text-blue-400">
-                    <Droplets size={20} />
-                    <h3 className="font-bold uppercase tracking-widest text-[10px] md:text-xs">{t('details.monsoon')}</h3>
+
+                <div className="p-5 rounded-2xl bg-white/[0.04] border border-white/[0.08]">
+                  <div className="flex items-center gap-2 text-blue-400 mb-3">
+                    <Droplets size={18} />
+                    <h3 className="text-xs font-bold tracking-wide">{t('details.monsoon')}</h3>
                   </div>
-                  <p className="text-xs md:text-sm text-slate-400 leading-relaxed">
+                  <p className="text-xs text-slate-300 leading-relaxed">
                     {language === 'bn' 
-                      ? 'টক্সিন বাইন্ডার + অ্যান্টিঅক্সিডেন্ট → ফাঙ্গাল টক্সিন রিস্ক কম। লিভার ও গাট সুরক্ষিত থাকে।' 
-                      : 'Toxin Binder + Antioxidant → Lower fungal toxin risk. Protected liver and gut health.'}
+                      ? 'টক্সিন বাইন্ডার ও অ্যান্টিঅক্সিডেন্ট আর্দ্রতায় ফাঙ্গাস আক্রমণ প্রতিরোধ করে।' 
+                      : 'Toxin binders and antioxidants shield liver and gut from fungal mycotoxins.'}
                   </p>
                 </div>
-                <div className="space-y-3 md:space-y-4">
-                  <div className="flex items-center gap-3 text-indigo-400">
-                    <Wind size={20} />
-                    <h3 className="font-bold uppercase tracking-widest text-[10px] md:text-xs">{t('details.winter')}</h3>
+
+                <div className="p-5 rounded-2xl bg-white/[0.04] border border-white/[0.08]">
+                  <div className="flex items-center gap-2 text-indigo-400 mb-3">
+                    <Wind size={18} />
+                    <h3 className="text-xs font-bold tracking-wide">{t('details.winter')}</h3>
                   </div>
-                  <p className="text-xs md:text-sm text-slate-400 leading-relaxed">
+                  <p className="text-xs text-slate-300 leading-relaxed">
                     {language === 'bn' 
-                      ? 'উচ্চ বিপাকীয় শক্তির কারণে গ্রোথ স্লো হয় না, ফিড এফিসিয়েন্সি বজায় থাকে।' 
-                      : 'High metabolic energy ensures growth doesn\'t slow down. Feed efficiency is maintained.'}
+                      ? 'উচ্চ মেটাবলিক এনার্জি যা শীতকালে শরীরের তাপমাত্রা ও বৃদ্ধি অবিচল রাখে।' 
+                      : 'High metabolic energy ensures uninterrupted growth velocity in cold conditions.'}
                   </p>
                 </div>
               </div>
             </section>
           </div>
 
-          {/* Right Column - Order & Purchase Sidebar */}
-          <div className="space-y-6 md:space-y-8">
-            <div className="bg-white p-6 md:p-8 rounded-[1.5rem] md:rounded-[2.5rem] shadow-sm border border-slate-100 lg:sticky lg:top-28">
+          {/* Right Column: Sticky Purchasing Dock (1 col) */}
+          <div className="space-y-8">
+            <div className="bg-white p-7 sm:p-8 rounded-3xl border border-slate-200/70 shadow-xs lg:sticky lg:top-28">
               
-              {/* Pricing Box */}
-              <div className="mb-6 p-4 rounded-2xl bg-orange-50/60 border border-orange-100">
-                <p className="text-xs font-bold uppercase tracking-wider text-orange-600 mb-1">
+              {/* Pricing Display */}
+              <div className="mb-6 p-5 rounded-2xl bg-slate-50 border border-slate-200/60">
+                <p className="text-[11px] font-bold uppercase tracking-wider text-slate-400 mb-1">
                   {t('products.price')}
                 </p>
                 <div className="flex items-baseline gap-2">
-                  <span className="text-2xl sm:text-3xl font-black text-slate-900">
+                  <span className="text-2xl sm:text-3xl font-bold text-slate-900 tracking-tight">
                     {product.price ? formatPrice(product.price) : t('products.callForPrice')}
                   </span>
                   {product.price && (
-                    <span className="text-xs text-slate-500 font-bold">
-                      {content.bagSize}
+                    <span className="text-xs text-slate-500 font-semibold">
+                      / {content.bagSize}
                     </span>
                   )}
                 </div>
-                <p className="text-[11px] text-slate-500 mt-1">
-                  {language === 'bn' ? 'ক্যাশ অন ডেলিভারি প্রযোজ্য' : 'Cash on Delivery applicable'}
+                <p className="text-[11px] text-emerald-700 font-medium mt-1">
+                  {language === 'bn' ? '✓ ক্যাশ অন ডেলিভারি এবং দ্রুত সরবরাহ' : '✓ Cash on Delivery & Direct Delivery'}
                 </p>
               </div>
 
-              {/* Quantity Selector */}
+              {/* Quantity Stepper */}
               <div className="mb-6">
-                <label className="block text-xs font-black uppercase tracking-wider text-slate-700 mb-2">
-                  {language === 'bn' ? 'পরিমাণ (ব্যাগ)' : 'Quantity (Bags)'}
+                <label className="block text-xs font-bold text-slate-700 mb-2">
+                  {language === 'bn' ? 'পরিমাণ (ব্যাগ সংখ্যা)' : 'Quantity (Bags)'}
                 </label>
-                <div className="flex items-center justify-between border-2 border-slate-200 rounded-2xl p-2 bg-slate-50">
+                <div className="flex items-center justify-between p-1.5 rounded-full bg-slate-100 border border-slate-200/60">
                   <button
                     onClick={() => setQuantity((q) => Math.max(1, q - 1))}
-                    className="w-10 h-10 rounded-xl bg-white border border-slate-200 flex items-center justify-center text-slate-700 hover:bg-slate-100 transition-colors shadow-xs"
+                    className="w-9 h-9 rounded-full bg-white flex items-center justify-center text-slate-700 hover:bg-slate-200/60 shadow-xs transition-colors"
                     aria-label="Decrease quantity"
                   >
-                    <Minus size={16} />
+                    <Minus size={14} />
                   </button>
-                  <span className="text-lg font-black text-slate-900">
+                  <span className="text-base font-bold text-slate-900 px-4">
                     {quantity}
                   </span>
                   <button
                     onClick={() => setQuantity((q) => q + 1)}
-                    className="w-10 h-10 rounded-xl bg-white border border-slate-200 flex items-center justify-center text-slate-700 hover:bg-slate-100 transition-colors shadow-xs"
+                    className="w-9 h-9 rounded-full bg-white flex items-center justify-center text-slate-700 hover:bg-slate-200/60 shadow-xs transition-colors"
                     aria-label="Increase quantity"
                   >
-                    <Plus size={16} />
+                    <Plus size={14} />
                   </button>
                 </div>
+
                 {product.price && quantity > 1 && (
-                  <p className="text-xs text-right text-slate-500 font-bold mt-1.5">
-                    {language === 'bn' ? 'মোট মূল্য: ' : 'Total: '}
-                    <span className="text-orange-600 font-black">{formatPrice(product.price * quantity)}</span>
+                  <p className="text-xs text-right text-slate-500 font-medium mt-2">
+                    {language === 'bn' ? 'সর্বমোট: ' : 'Total: '}
+                    <span className="text-slate-900 font-bold">{formatPrice(product.price * quantity)}</span>
                   </p>
                 )}
               </div>
 
-              {/* Main E-commerce Actions */}
-              <div className="space-y-3 mb-8">
+              {/* Action Buttons */}
+              <div className="space-y-2.5 mb-8">
                 <button
                   onClick={handleDirectOrder}
                   aria-label="Buy now"
-                  className="buy-now-btn w-full py-4 bg-gradient-to-r from-orange-500 to-orange-600 hover:from-orange-600 hover:to-orange-700 text-white rounded-2xl font-black text-sm uppercase tracking-wider shadow-lg shadow-orange-500/25 transition-all flex items-center justify-center gap-2 active:scale-[0.99]"
+                  className="buy-now-btn w-full py-3.5 bg-slate-900 hover:bg-slate-800 text-white rounded-full font-bold text-xs tracking-tight shadow-md hover:shadow-lg transition-all flex items-center justify-center gap-2 active:scale-95"
                 >
-                  <Zap size={18} />
                   <span>{t('order.directOrder')}</span>
+                  <ArrowRight size={14} />
                 </button>
 
                 <button
                   onClick={() => addToCart(product, quantity)}
                   aria-label="Add to cart"
                   data-action="cart"
-                  className="add-to-cart-btn w-full py-3.5 bg-slate-900 hover:bg-slate-800 text-white rounded-2xl font-black text-sm uppercase tracking-wider transition-all flex items-center justify-center gap-2 active:scale-[0.99]"
+                  className="add-to-cart-btn w-full py-3 bg-slate-100 hover:bg-slate-200 text-slate-800 rounded-full font-bold text-xs tracking-tight transition-colors flex items-center justify-center gap-2 active:scale-95"
                 >
-                  <ShoppingBag size={18} />
+                  <ShoppingBag size={14} />
                   <span>{t('order.addToCart')}</span>
                 </button>
               </div>
 
-              {/* Competitive Advantages */}
-              <h3 className="text-sm font-bold uppercase tracking-wider text-slate-400 mb-4">{t('details.advantages')}</h3>
-              <div className="space-y-3 mb-8">
-                {content.advantages.map((adv, i) => (
-                  <div key={i} className="flex items-start gap-2.5">
-                    <CheckCircle2 size={16} className="text-green-500 shrink-0 mt-0.5" />
-                    <span className="text-xs text-slate-600 font-medium">{adv}</span>
-                  </div>
-                ))}
+              {/* Key Advantages */}
+              <div className="mb-8 pt-6 border-t border-slate-100">
+                <h4 className="text-xs font-bold uppercase tracking-wider text-slate-400 mb-3">
+                  {t('details.advantages')}
+                </h4>
+                <div className="space-y-2">
+                  {content.advantages.map((adv, i) => (
+                    <div key={i} className="flex items-start gap-2 text-xs text-slate-600">
+                      <CheckCircle2 size={14} className="text-emerald-600 shrink-0 mt-0.5" />
+                      <span>{adv}</span>
+                    </div>
+                  ))}
+                </div>
               </div>
-              
-              {/* Assistance & Direct Inquiry */}
+
+              {/* Instant Communication Channels */}
               <div className="pt-6 border-t border-slate-100">
-                <p className="text-xs font-bold text-slate-900 mb-3">{t('details.interested')}</p>
-                <div className="space-y-2.5">
+                <p className="text-xs font-bold text-slate-900 mb-3">
+                  {t('details.interested')}
+                </p>
+                <div className="space-y-2">
                   <a
                     href={`https://m.me/61594281573717?ref=${encodeURIComponent(product.id)}`}
                     target="_blank"
                     rel="noreferrer"
                     onClick={() => trackMetaContact('Facebook_Messenger_Product', { product_id: product.id, product_name: content.name })}
-                    className="flex items-center justify-center gap-2.5 w-full py-3 bg-[#0084FF] text-white rounded-xl font-bold hover:bg-[#0073e6] transition-all text-xs shadow-sm"
+                    className="flex items-center justify-center gap-2 w-full py-2.5 bg-[#0084FF] hover:bg-[#0073e6] text-white rounded-full font-semibold text-xs transition-colors"
                   >
-                    <svg className="w-4 h-4 fill-current" viewBox="0 0 24 24">
-                      <path d="M12 2C6.477 2 2 6.145 2 11.258c0 2.914 1.455 5.518 3.735 7.152V22l3.447-1.892c.905.251 1.865.388 2.818.388 5.523 0 10-4.145 10-9.258C22 6.145 17.523 2 12 2zm1.002 12.443l-2.557-2.727-4.993 2.727 5.49-5.83 2.62 2.728 4.93-2.728-5.49 5.83z" />
-                    </svg>
                     <span>{language === 'bn' ? 'ফেসবুক মেসেঞ্জারে সরাসরি কথা বলুন' : 'Chat on Facebook Messenger'}</span>
                   </a>
+
                   <a
                     href={`https://wa.me/8801817875139?text=${encodeURIComponent(`Hello MI UNIFYLD AGRO LTD, I want to inquire about ${content.name}`)}`}
                     target="_blank"
                     rel="noreferrer"
                     onClick={() => trackMetaContact('WhatsApp_Product', { product_id: product.id })}
-                    className="flex items-center justify-center gap-2.5 w-full py-3 bg-green-500 text-white rounded-xl font-bold hover:bg-green-600 transition-all text-xs"
+                    className="flex items-center justify-center gap-2 w-full py-2.5 bg-[#25D366] hover:bg-[#1ebe5d] text-white rounded-full font-semibold text-xs transition-colors"
                   >
-                    <MessageSquare size={16} /> <span>{t('contact.whatsapp')}</span>
+                    <MessageSquare size={14} />
+                    <span>{t('contact.whatsapp')}</span>
                   </a>
+
                   <a
                     href="tel:+8801817875139"
                     onClick={() => trackMetaContact('Hotline_Call_Product', { product_id: product.id })}
-                    className="flex items-center justify-center gap-2.5 w-full py-3 bg-slate-100 text-slate-800 rounded-xl font-bold hover:bg-slate-200 transition-all text-xs"
+                    className="flex items-center justify-center gap-2 w-full py-2.5 bg-slate-100 hover:bg-slate-200 text-slate-800 rounded-full font-semibold text-xs transition-colors"
                   >
-                    <Phone size={16} /> <span>{t('nav.callNow')}</span>
-                  </a>
-                  <a
-                    href="mailto:info@miunifyldagroltd.com"
-                    onClick={() => trackMetaContact('Email_Inquiry_Product', { product_id: product.id })}
-                    className="flex items-center justify-center gap-2.5 w-full py-3 bg-slate-50 text-slate-600 rounded-xl font-bold hover:bg-slate-100 transition-all text-xs"
-                  >
-                    <Mail size={16} /> <span>{t('details.sendEmail')}</span>
+                    <Phone size={14} />
+                    <span>{t('nav.callNow')}</span>
                   </a>
                 </div>
-                <p className="text-[9px] text-slate-400 text-center mt-5 uppercase tracking-widest font-bold">
-                  {t('details.commitment')}
-                </p>
               </div>
             </div>
           </div>
         </div>
       </div>
 
-      {/* Floating Mobile CTA */}
-      <div className="fixed bottom-0 left-0 right-0 z-40 p-3 bg-white/90 backdrop-blur-lg border-t border-slate-200 md:hidden flex gap-2.5 shadow-2xl">
-        <button 
+      {/* Floating Mobile Action Dock */}
+      <div className="fixed bottom-0 left-0 right-0 z-40 p-3 bg-white/90 apple-blur border-t border-slate-200/60 md:hidden flex gap-2.5 shadow-2xl">
+        <button
           onClick={() => addToCart(product, quantity)}
-          className="flex-1 bg-slate-900 text-white py-3.5 rounded-xl font-bold text-xs flex items-center justify-center gap-1.5 shadow-md active:scale-95"
+          className="flex-1 bg-slate-100 text-slate-900 py-3 rounded-full font-bold text-xs flex items-center justify-center gap-1.5 active:scale-95"
         >
-          <ShoppingBag size={16} />
+          <ShoppingBag size={15} />
           <span>{t('order.addToCart')}</span>
         </button>
-        <button 
+        <button
           onClick={handleDirectOrder}
-          className="flex-1 bg-gradient-to-r from-orange-500 to-orange-600 text-white py-3.5 rounded-xl font-black text-xs flex items-center justify-center gap-1.5 shadow-md shadow-orange-500/25 active:scale-95"
+          className="flex-1 bg-slate-950 text-white py-3 rounded-full font-bold text-xs flex items-center justify-center gap-1.5 shadow-md active:scale-95"
         >
-          <Zap size={16} />
           <span>{t('order.directOrder')}</span>
+          <ArrowRight size={14} />
         </button>
       </div>
     </div>
