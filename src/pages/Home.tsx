@@ -40,7 +40,7 @@ const heroSlides = [
     }
   },
   {
-    image: 'https://images.unsplash.com/photo-1527153857715-3908f2ae5e81?auto=format&fit=crop&q=80&w=2000',
+    image: '/hero-cattle.jpg',
     tag: { bn: '🐄 ডেইরি ক্যাটল ও খামার পুষ্টি', en: '🐄 Dairy Cattle & Livestock Nutrition' },
     titlePrefix: { bn: 'সুস্থ গবাদি পশু, ', en: 'Healthy Cattle, ' },
     titleAccent: { bn: 'অধিক দুধ ও মাংস উৎপাদন', en: 'Higher Milk & Beef Yield' },
@@ -50,7 +50,7 @@ const heroSlides = [
     }
   },
   {
-    image: 'https://images.unsplash.com/photo-1500382017468-9049fed747ef?auto=format&fit=crop&q=80&w=2000',
+    image: '/hero-farm.jpg',
     tag: { bn: '🌾 টেকসই কৃষি ও খাঁটি খাদ্য', en: '🌾 Sustainable Agriculture & Pure Foods' },
     titlePrefix: { bn: 'খামারি থেকে পরিবার, ', en: 'From Farm to Family, ' },
     titleAccent: { bn: 'নিরাপদ পুষ্টির নিশ্চয়তা', en: 'Guaranteed Safe Nutrition' },
@@ -106,9 +106,9 @@ export default function Home() {
             </motion.div>
           </AnimatePresence>
 
-          {/* Authentic Agrarian Deep Green Overlays for Readability & Mood */}
-          <div className="absolute inset-0 bg-gradient-to-t from-[#021807] via-[#021807]/75 to-[#001004]/60 z-10" />
-          <div className="absolute inset-0 bg-radial from-transparent via-[#021807]/40 to-[#021807]/80 z-10" />
+          {/* Authentic Agrarian Overlays: Light enough so the real farm, chickens & barn are crisp, with smooth edge vignetting */}
+          <div className="absolute inset-0 bg-gradient-to-b from-[#021807]/75 via-[#021807]/35 to-[#021807] z-10" />
+          <div className="absolute inset-0 bg-black/20 z-10 backdrop-brightness-[0.95]" />
         </div>
 
         {/* Hero Content */}
@@ -121,21 +121,21 @@ export default function Home() {
             className="max-w-4xl mx-auto"
           >
             {/* Agro Farm Eyebrow Badge */}
-            <div className="inline-flex items-center gap-2 px-4 py-1.5 rounded-full bg-emerald-950/70 border border-emerald-400/30 text-emerald-300 text-xs sm:text-sm font-semibold tracking-wide mb-6 backdrop-blur-md shadow-lg">
+            <div className="inline-flex items-center gap-2 px-4 py-1.5 rounded-full bg-emerald-950/80 border border-emerald-400/40 text-emerald-300 text-xs sm:text-sm font-semibold tracking-wide mb-6 backdrop-blur-md shadow-2xl">
               <Sprout size={15} className="text-emerald-400 animate-pulse" />
               <span>{heroSlides[currentSlide].tag[language]}</span>
             </div>
 
             {/* Farm Power Headline */}
-            <h1 className="text-4xl sm:text-6xl lg:text-7xl font-black text-white tracking-tight leading-[1.1] mb-6 drop-shadow-xl">
+            <h1 className="text-4xl sm:text-6xl lg:text-7xl font-black text-white tracking-tight leading-[1.1] mb-6 drop-shadow-[0_4px_16px_rgba(0,0,0,0.9)]">
               {heroSlides[currentSlide].titlePrefix[language]}{' '}
-              <span className="text-amber-400 bg-gradient-to-r from-amber-300 to-yellow-400 bg-clip-text text-transparent drop-shadow-[0_2px_15px_rgba(251,191,36,0.4)]">
+              <span className="text-amber-400 bg-gradient-to-r from-amber-300 to-yellow-400 bg-clip-text text-transparent drop-shadow-[0_4px_20px_rgba(0,0,0,0.9)]">
                 {heroSlides[currentSlide].titleAccent[language]}
               </span>
             </h1>
 
             {/* Subtitle */}
-            <p className="text-base sm:text-xl text-emerald-50 max-w-2xl mx-auto mb-10 leading-relaxed font-medium drop-shadow-md">
+            <p className="text-base sm:text-xl text-emerald-50 max-w-2xl mx-auto mb-10 leading-relaxed font-semibold drop-shadow-[0_2px_10px_rgba(0,0,0,0.9)]">
               {heroSlides[currentSlide].desc[language]}
             </p>
 
