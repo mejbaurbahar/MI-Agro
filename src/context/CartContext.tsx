@@ -1,5 +1,5 @@
 import React, { createContext, useContext, useState, useEffect } from 'react';
-import { Product } from '../data/products';
+import { Product, getProductImage } from '../data/products';
 import { useLanguage } from './LanguageContext';
 import { toast } from 'sonner';
 import { trackNerjaEvent } from '../utils/nerja';
@@ -75,7 +75,7 @@ export const CartProvider: React.FC<{ children: React.ReactNode }> = ({ children
       product_id: product.id,
       product_name: product.en.name,
       product_price: product.price ? `৳ ${product.price.toFixed(2)}` : '',
-      product_image: `/products/${product.id}.png`,
+      product_image: getProductImage(product),
       product_category: product.category,
       price: product.price || 0,
       quantity,

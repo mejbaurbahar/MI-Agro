@@ -23,6 +23,7 @@ import {
 import { useCart } from '../context/CartContext';
 import { useLanguage } from '../context/LanguageContext';
 import { toast } from 'sonner';
+import { getProductImage } from '../data/products';
 import { trackNerjaEvent } from '../utils/nerja';
 import { trackMetaInitiateCheckout, trackMetaPurchase } from '../utils/metaPixel';
 
@@ -645,7 +646,7 @@ export default function Checkout() {
                   return (
                     <div key={item.product.id} className="py-4 first:pt-0 flex gap-3.5 items-center">
                       <img
-                        src={`/products/${item.product.id}.png`}
+                        src={getProductImage(item.product)}
                         alt={productContent.name}
                         className="w-16 h-16 rounded-xl object-cover bg-slate-100 shrink-0 border border-slate-200/80"
                         onError={(e) => {

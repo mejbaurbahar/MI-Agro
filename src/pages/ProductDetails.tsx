@@ -1,7 +1,7 @@
 import { useState, useEffect } from 'react';
 import { useParams, Link, useNavigate } from 'react-router-dom';
 import { Helmet } from 'react-helmet-async';
-import { products } from '../data/products';
+import { products, getProductImage } from '../data/products';
 import { motion } from 'motion/react';
 import { useLanguage } from '../context/LanguageContext';
 import { useCart } from '../context/CartContext';
@@ -45,7 +45,7 @@ export default function ProductDetails() {
   }
 
   const content = product[language];
-  const productImage = `/products/${product.id}.png`;
+  const productImage = getProductImage(product);
 
   // Track Meta ViewContent for retargeting / automated messaging
   useEffect(() => {

@@ -5,7 +5,7 @@ import { motion, AnimatePresence } from 'motion/react';
 import { ArrowRight, Star, Shield, Zap, Eye, TrendingUp, ShieldCheck, ChevronLeft, ChevronRight, Phone, CheckCircle2, FlaskConical, Wheat, Factory, MessageSquare, ShoppingBag } from 'lucide-react';
 import { useLanguage } from '../context/LanguageContext';
 import { useCart } from '../context/CartContext';
-import { products } from '../data/products';
+import { products, getProductImage } from '../data/products';
 import { trackMetaViewContent } from '../utils/metaPixel';
 
 const heroSlides = [
@@ -266,7 +266,7 @@ export default function Home() {
                 >
                   <div className={`absolute inset-0 bg-gradient-to-br ${product.color} opacity-10 group-hover:opacity-20 transition-opacity`} />
                   <img
-                    src={`/products/${product.id}.png`}
+                    src={getProductImage(product)}
                     alt={product[language].name}
                     width={400}
                     height={400}

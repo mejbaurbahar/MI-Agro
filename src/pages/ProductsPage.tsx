@@ -4,7 +4,7 @@ import { motion } from 'motion/react';
 import { Eye, ShoppingBag, Zap } from 'lucide-react';
 import { useLanguage } from '../context/LanguageContext';
 import { useCart } from '../context/CartContext';
-import { products } from '../data/products';
+import { products, getProductImage } from '../data/products';
 import { trackMetaViewContent } from '../utils/metaPixel';
 
 export default function ProductsPage() {
@@ -64,7 +64,7 @@ export default function ProductsPage() {
                   >
                     <div className={`absolute inset-0 bg-gradient-to-br ${product.color} opacity-10 group-hover:opacity-20 transition-opacity`} />
                     <img
-                      src={`/products/${product.id}.png`}
+                      src={getProductImage(product)}
                       alt={product[language].name}
                       width={400}
                       height={400}

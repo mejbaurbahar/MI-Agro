@@ -4,6 +4,7 @@ import { X, Plus, Minus, Trash2, ShoppingBag, ArrowRight } from 'lucide-react';
 import { useCart } from '../context/CartContext';
 import { useLanguage } from '../context/LanguageContext';
 import { useNavigate, Link } from 'react-router-dom';
+import { getProductImage } from '../data/products';
 
 export default function CartDrawer() {
   const { 
@@ -110,7 +111,7 @@ export default function CartDrawer() {
                         className="w-20 h-20 rounded-xl overflow-hidden bg-slate-100 shrink-0 border border-slate-200/60 block"
                       >
                         <img
-                          src={`/products/${item.product.id}.png`}
+                          src={getProductImage(item.product)}
                           alt={productContent.name}
                           className="w-full h-full object-cover"
                           onError={(e) => {
