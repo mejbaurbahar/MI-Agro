@@ -24,45 +24,46 @@ export default function ProductsPage() {
     : 'products.title';
 
   const categories = [
-    { id: 'all', label: language === 'bn' ? 'সব পণ্য' : 'All Products' },
-    { id: 'poultry', label: language === 'bn' ? 'পোল্ট্রি' : 'Poultry' },
-    { id: 'sonali', label: language === 'bn' ? 'সোনালী' : 'Sonali' },
-    { id: 'cattle', label: language === 'bn' ? 'ক্যাটল' : 'Cattle' },
-    { id: 'food', label: language === 'bn' ? 'ফুড ও বেভারেজ' : 'Food & Beverage' },
+    { id: 'all', label: language === 'bn' ? 'সব পণ্য 🌾' : 'All Products 🌾' },
+    { id: 'poultry', label: language === 'bn' ? 'পোল্ট্রি ফিড 🐔' : 'Poultry Feed 🐔' },
+    { id: 'sonali', label: language === 'bn' ? 'সোনালী ফিড 🐥' : 'Sonali Feed 🐥' },
+    { id: 'cattle', label: language === 'bn' ? 'ক্যাটল ও ডেইরি 🐄' : 'Cattle & Dairy 🐄' },
+    { id: 'food', label: language === 'bn' ? 'ফুড ও বেভারেজ 🍃' : 'Food & Beverage 🍃' },
   ];
 
   return (
-    <div className="pt-28 pb-24 bg-[#fbfbfd] min-h-screen">
+    <div className="pt-28 pb-24 bg-[#f8faf6] min-h-screen">
       <Helmet>
         <title>{`${t(titleKey)} | MI UNIFYLD AGRO LTD`}</title>
         <meta name="description" content={t('products.desc')} />
       </Helmet>
 
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-        {/* Apple Style Editorial Header */}
+        {/* Farm Lineup Header */}
         <div className="mb-10 sm:mb-14 text-center max-w-3xl mx-auto">
-          <span className="text-xs font-bold uppercase tracking-widest text-emerald-600 mb-2 block">
-            {language === 'bn' ? 'পণ্য তালিকা' : 'Product Lineup'}
+          <span className="inline-flex items-center gap-1.5 px-3.5 py-1 rounded-full text-xs font-bold uppercase tracking-wider text-emerald-800 bg-emerald-100 border border-emerald-300/60 mb-3">
+            <span>🌿</span>
+            <span>{language === 'bn' ? 'খামার পুষ্টি সম্ভার' : 'Farm Nutrition Lineup'}</span>
           </span>
-          <h1 className="text-3xl sm:text-5xl font-bold tracking-tight text-slate-900 mb-4">
+          <h1 className="text-3xl sm:text-5xl font-black tracking-tight text-[#03230c] mb-4">
             {t(titleKey)}
           </h1>
-          <p className="text-sm sm:text-base text-slate-500 max-w-2xl mx-auto leading-relaxed">
+          <p className="text-sm sm:text-base text-slate-600 max-w-2xl mx-auto leading-relaxed font-medium">
             {t('products.desc')}
           </p>
 
-          {/* iOS Segmented Control Bar */}
-          <div className="mt-8 inline-flex items-center p-1 rounded-full bg-slate-200/60 border border-slate-300/40 max-w-full overflow-x-auto scrollbar-none">
+          {/* Agro Segmented Control Bar */}
+          <div className="mt-8 inline-flex items-center p-1.5 rounded-full bg-emerald-950/10 border border-emerald-500/20 max-w-full overflow-x-auto scrollbar-none shadow-inner">
             {categories.map((c) => {
               const active = (category === c.id) || (!category && c.id === 'all');
               return (
                 <Link
                   key={c.id}
                   to={c.id === 'all' ? '/products/all' : `/products/${c.id}`}
-                  className={`px-4 sm:px-5 py-2 rounded-full text-xs font-semibold tracking-tight transition-all whitespace-nowrap ${
+                  className={`px-4 sm:px-5 py-2 rounded-full text-xs font-bold tracking-tight transition-all whitespace-nowrap ${
                     active
-                      ? 'bg-white text-slate-950 shadow-sm'
-                      : 'text-slate-600 hover:text-slate-900'
+                      ? 'bg-[#03230c] text-amber-300 shadow-md scale-[1.02]'
+                      : 'text-emerald-900 hover:text-emerald-950 hover:bg-white/60'
                   }`}
                 >
                   {c.label}

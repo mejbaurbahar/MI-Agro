@@ -71,16 +71,16 @@ export default function ProductDetails() {
         <meta name="description" content={content.tagline} />
       </Helmet>
 
-      {/* Hero Showcase — Apple Keynote Product Stage */}
-      <section className="relative pt-28 pb-16 md:pt-36 md:pb-24 bg-gradient-to-b from-slate-950 via-slate-900 to-slate-950 text-white overflow-hidden border-b border-white/[0.08]">
+      {/* Hero Showcase — Agro Farm Product Stage */}
+      <section className="relative pt-28 pb-16 md:pt-36 md:pb-24 bg-gradient-to-b from-[#021f0a] via-[#032d10] to-[#011405] text-white overflow-hidden border-b border-emerald-500/20">
         {/* Soft Ambient Radial Background Lights */}
-        <div className="absolute top-1/3 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[550px] h-[300px] bg-emerald-500/10 rounded-full blur-[100px] pointer-events-none" />
+        <div className="absolute top-1/3 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[550px] h-[300px] bg-emerald-500/20 rounded-full blur-[100px] pointer-events-none" />
 
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 relative z-10">
           {/* Breadcrumb Pill */}
           <Link
             to="/products/all"
-            className="inline-flex items-center gap-1.5 px-3.5 py-1.5 rounded-full bg-white/[0.06] hover:bg-white/[0.12] text-slate-300 hover:text-white border border-white/[0.08] text-xs font-semibold mb-8 transition-colors"
+            className="inline-flex items-center gap-1.5 px-3.5 py-1.5 rounded-full bg-emerald-950/70 hover:bg-emerald-900/80 text-emerald-200 hover:text-white border border-emerald-500/20 text-xs font-semibold mb-8 transition-colors"
           >
             <ArrowLeft size={13} />
             <span>{t('details.back')}</span>
@@ -93,34 +93,34 @@ export default function ProductDetails() {
               animate={{ opacity: 1, y: 0 }}
               transition={{ duration: 0.6 }}
             >
-              <div className="inline-flex items-center gap-2 px-3.5 py-1 rounded-full bg-white/[0.08] border border-white/[0.12] text-emerald-300 text-[11px] font-semibold tracking-tight mb-4 backdrop-blur-md">
+              <div className="inline-flex items-center gap-2 px-3.5 py-1 rounded-full bg-emerald-900/60 border border-emerald-400/30 text-amber-300 text-[11px] font-bold tracking-tight mb-4 backdrop-blur-md">
                 <Sparkles size={12} />
                 <span>{content.phase}</span>
               </div>
 
-              <h1 itemProp="name" className="text-3xl sm:text-5xl lg:text-6xl font-bold tracking-tight mb-4 leading-[1.1] product-title">
+              <h1 itemProp="name" className="text-3xl sm:text-5xl lg:text-6xl font-black tracking-tight mb-4 leading-[1.1] text-white product-title">
                 {content.name}
               </h1>
 
-              <p itemProp="description" className="text-base sm:text-lg text-slate-300 italic mb-8 leading-relaxed">
+              <p itemProp="description" className="text-base sm:text-lg text-emerald-100 italic mb-8 leading-relaxed font-medium">
                 "{content.tagline}"
               </p>
 
               {/* Quick Spec Pills */}
               <div className="flex flex-wrap gap-3">
-                <div className="flex items-center gap-2.5 px-4 py-2.5 rounded-2xl bg-white/[0.06] border border-white/[0.08]">
-                  <Clock size={16} className="text-emerald-400" />
+                <div className="flex items-center gap-2.5 px-4 py-2.5 rounded-2xl bg-emerald-950/60 border border-emerald-500/25">
+                  <Clock size={16} className="text-amber-400" />
                   <div>
-                    <p className="text-[10px] uppercase tracking-wider text-slate-400">{t('details.duration')}</p>
-                    <p className="text-xs font-semibold text-white">{content.duration}</p>
+                    <p className="text-[10px] uppercase tracking-wider text-emerald-300/80 font-bold">{t('details.duration')}</p>
+                    <p className="text-xs font-bold text-white">{content.duration}</p>
                   </div>
                 </div>
 
-                <div className="flex items-center gap-2.5 px-4 py-2.5 rounded-2xl bg-white/[0.06] border border-white/[0.08]">
-                  <Package size={16} className="text-emerald-400" />
+                <div className="flex items-center gap-2.5 px-4 py-2.5 rounded-2xl bg-emerald-950/60 border border-emerald-500/25">
+                  <Package size={16} className="text-amber-400" />
                   <div>
-                    <p className="text-[10px] uppercase tracking-wider text-slate-400">{t('details.packaging')}</p>
-                    <p className="text-xs font-semibold text-white">{content.bagSize}</p>
+                    <p className="text-[10px] uppercase tracking-wider text-emerald-300/80 font-bold">{t('details.packaging')}</p>
+                    <p className="text-xs font-bold text-white">{content.bagSize}</p>
                   </div>
                 </div>
               </div>
@@ -133,7 +133,7 @@ export default function ProductDetails() {
               transition={{ duration: 0.6, delay: 0.15 }}
               className="relative"
             >
-              <div className="relative aspect-[4/5] max-w-md mx-auto bg-gradient-to-b from-white/[0.08] to-white/[0.02] p-8 sm:p-12 rounded-[2.5rem] border border-white/[0.1] shadow-2xl flex items-center justify-center overflow-hidden">
+              <div className="relative aspect-[4/5] max-w-md mx-auto bg-gradient-to-b from-white/[0.12] to-white/[0.03] p-8 sm:p-12 rounded-[2.5rem] border border-emerald-500/30 shadow-2xl flex items-center justify-center overflow-hidden">
                 <img
                   src={productImage}
                   alt={content.name}
@@ -351,7 +351,7 @@ export default function ProductDetails() {
                 <button
                   onClick={handleDirectOrder}
                   aria-label="Buy now"
-                  className="buy-now-btn w-full py-3.5 bg-slate-900 hover:bg-slate-800 text-white rounded-full font-bold text-xs tracking-tight shadow-md hover:shadow-lg transition-all flex items-center justify-center gap-2 active:scale-95"
+                  className="buy-now-btn w-full py-3.5 bg-gradient-to-r from-amber-400 via-amber-500 to-yellow-500 hover:from-amber-300 hover:to-yellow-400 text-slate-950 rounded-full font-black text-xs tracking-tight shadow-md hover:shadow-lg transition-all flex items-center justify-center gap-2 active:scale-95"
                 >
                   <span>{t('order.directOrder')}</span>
                   <ArrowRight size={14} />
@@ -361,7 +361,7 @@ export default function ProductDetails() {
                   onClick={() => addToCart(product, quantity)}
                   aria-label="Add to cart"
                   data-action="cart"
-                  className="add-to-cart-btn w-full py-3 bg-slate-100 hover:bg-slate-200 text-slate-800 rounded-full font-bold text-xs tracking-tight transition-colors flex items-center justify-center gap-2 active:scale-95"
+                  className="add-to-cart-btn w-full py-3 bg-[#021f0a] hover:bg-emerald-900 text-white rounded-full font-bold text-xs tracking-tight transition-colors flex items-center justify-center gap-2 active:scale-95"
                 >
                   <ShoppingBag size={14} />
                   <span>{t('order.addToCart')}</span>
