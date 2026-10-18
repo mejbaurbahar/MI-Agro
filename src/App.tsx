@@ -13,6 +13,7 @@ import ProductsPage from './pages/ProductsPage';
 import About from './pages/About';
 import Contact from './pages/Contact';
 import Checkout from './pages/Checkout';
+import PrivacyPolicy from './pages/PrivacyPolicy';
 import NotFound from './pages/NotFound';
 import ScrollToTop from './components/ScrollToTop';
 import CartDrawer from './components/CartDrawer';
@@ -63,6 +64,9 @@ export default function App() {
                   <Route path="/about" element={<About />} />
                   <Route path="/contact" element={<Contact />} />
                   <Route path="/checkout" element={<Checkout />} />
+                  <Route path="/privacy-policy" element={<PrivacyPolicy />} />
+                  <Route path="/privacy" element={<PrivacyPolicy />} />
+                  <Route path="/terms" element={<PrivacyPolicy />} />
                   <Route path="/products/:category" element={<ProductsPage />} />
                   <Route path="/product/:id" element={<ProductDetails />} />
                   <Route path="*" element={<NotFound />} />

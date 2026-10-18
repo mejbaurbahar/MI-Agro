@@ -21,8 +21,40 @@ import {
   Plus, 
   Minus,
   Sparkles,
-  ArrowRight
+  ArrowRight,
+  ShieldCheck,
+  TrendingUp,
+  Award,
+  HeartPulse
 } from 'lucide-react';
+
+const getFunctionalityIcon = (iconName?: string, index: number = 0) => {
+  switch (iconName?.toLowerCase()) {
+    case 'zap':
+      return Zap;
+    case 'shieldcheck':
+    case 'shield':
+      return ShieldCheck;
+    case 'trendingup':
+    case 'growth':
+      return TrendingUp;
+    case 'droplets':
+      return Droplets;
+    case 'wind':
+      return Wind;
+    case 'heartpulse':
+    case 'heart':
+      return HeartPulse;
+    case 'award':
+      return Award;
+    case 'sparkles':
+      return Sparkles;
+    case 'checkcircle2':
+      return CheckCircle2;
+    default:
+      return [Zap, ShieldCheck, TrendingUp][index % 3] || Zap;
+  }
+};
 
 export default function ProductDetails() {
   const { id } = useParams();
@@ -205,7 +237,9 @@ export default function ProductDetails() {
 
                 <div>
                   <h3 className="text-xs font-bold uppercase tracking-wider text-emerald-700 mb-4">
-                    {t('details.performance')}
+                    {product.category === 'food' 
+                      ? (language === 'bn' ? 'গুণমান ও ব্যবহারের মান' : 'Quality & Culinary Standards') 
+                      : t('details.performance')}
                   </h3>
                   <div className="divide-y divide-slate-100">
                     {content.performance.map((p, i) => (
@@ -238,53 +272,32 @@ export default function ProductDetails() {
               </div>
             </section>
 
-            {/* Multi-Season Environmental Stability */}
+            {/* Product Functionality & Core Benefits */}
             <section className="bg-slate-950 text-white p-8 sm:p-12 rounded-3xl border border-white/[0.08] shadow-xl">
               <div className="mb-8">
                 <span className="text-xs font-bold uppercase tracking-widest text-emerald-400 mb-1 block">
-                  {language === 'bn' ? 'আবহাওয়া অভিযোজন' : 'Climate Resilience'}
+                  {content.functionality?.badge || (language === 'bn' ? 'পণ্য কার্যকারিতা ও বৈশিষ্ট্য' : 'Functionality & Core Benefits')}
                 </span>
                 <h2 className="text-xl sm:text-2xl font-bold tracking-tight">
-                  {t('details.seasonal')}
+                  {content.functionality?.title || t('details.seasonal')}
                 </h2>
               </div>
 
               <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
-                <div className="p-5 rounded-2xl bg-white/[0.04] border border-white/[0.08]">
-                  <div className="flex items-center gap-2 text-amber-400 mb-3">
-                    <Zap size={18} />
-                    <h3 className="text-xs font-bold tracking-wide">{t('details.summer')}</h3>
-                  </div>
-                  <p className="text-xs text-slate-300 leading-relaxed">
-                    {language === 'bn' 
-                      ? 'বেটেইন + ইলেক্ট্রোলাইট ফর্মুলা যা হিট স্ট্রেস কমায় এবং পানিশূন্যতা রোধ করে।' 
-                      : 'Betaine + Electrolytes provide heat stress defense and prevent feed refusal.'}
-                  </p>
-                </div>
-
-                <div className="p-5 rounded-2xl bg-white/[0.04] border border-white/[0.08]">
-                  <div className="flex items-center gap-2 text-blue-400 mb-3">
-                    <Droplets size={18} />
-                    <h3 className="text-xs font-bold tracking-wide">{t('details.monsoon')}</h3>
-                  </div>
-                  <p className="text-xs text-slate-300 leading-relaxed">
-                    {language === 'bn' 
-                      ? 'টক্সিন বাইন্ডার ও অ্যান্টিঅক্সিডেন্ট আর্দ্রতায় ফাঙ্গাস আক্রমণ প্রতিরোধ করে।' 
-                      : 'Toxin binders and antioxidants shield liver and gut from fungal mycotoxins.'}
-                  </p>
-                </div>
-
-                <div className="p-5 rounded-2xl bg-white/[0.04] border border-white/[0.08]">
-                  <div className="flex items-center gap-2 text-indigo-400 mb-3">
-                    <Wind size={18} />
-                    <h3 className="text-xs font-bold tracking-wide">{t('details.winter')}</h3>
-                  </div>
-                  <p className="text-xs text-slate-300 leading-relaxed">
-                    {language === 'bn' 
-                      ? 'উচ্চ মেটাবলিক এনার্জি যা শীতকালে শরীরের তাপমাত্রা ও বৃদ্ধি অবিচল রাখে।' 
-                      : 'High metabolic energy ensures uninterrupted growth velocity in cold conditions.'}
-                  </p>
-                </div>
+                {(content.functionality?.items || []).map((item, idx) => {
+                  const Icon = getFunctionalityIcon(item.icon, idx);
+                  return (
+                    <div key={idx} className="p-5 rounded-2xl bg-white/[0.04] border border-white/[0.08] hover:border-emerald-500/30 transition-colors">
+                      <div className="flex items-center gap-2 text-amber-400 mb-3">
+                        <Icon size={18} />
+                        <h3 className="text-xs font-bold tracking-wide">{item.title}</h3>
+                      </div>
+                      <p className="text-xs text-slate-300 leading-relaxed">
+                        {item.desc}
+                      </p>
+                    </div>
+                  );
+                })}
               </div>
             </section>
           </div>
@@ -390,13 +403,13 @@ export default function ProductDetails() {
                 </p>
                 <div className="space-y-2">
                   <a
-                    href={`https://m.me/61594281573717?ref=${encodeURIComponent(product.id)}`}
+                    href="https://www.facebook.com/messages/t/61594281573717"
                     target="_blank"
                     rel="noreferrer"
                     onClick={() => trackMetaContact('Facebook_Messenger_Product', { product_id: product.id, product_name: content.name })}
-                    className="flex items-center justify-center gap-2 w-full py-2.5 bg-[#0084FF] hover:bg-[#0073e6] text-white rounded-full font-semibold text-xs transition-colors"
+                    className="flex items-center justify-center gap-2 w-full py-2.5 bg-[#1877F2] hover:bg-[#166fe5] text-white rounded-full font-semibold text-xs transition-colors"
                   >
-                    <span>{language === 'bn' ? 'ফেসবুক মেসেঞ্জারে সরাসরি কথা বলুন' : 'Chat on Facebook Messenger'}</span>
+                    <span>{language === 'bn' ? 'ফেসবুকে সরাসরি কথা বলুন' : 'Chat via Facebook Messages'}</span>
                   </a>
 
                   <a

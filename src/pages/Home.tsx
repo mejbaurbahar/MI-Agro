@@ -18,7 +18,8 @@ import {
   Sprout,
   Award,
   Truck,
-  HeartPulse
+  HeartPulse,
+  Target
 } from 'lucide-react';
 import { useLanguage } from '../context/LanguageContext';
 import { useCart } from '../context/CartContext';
@@ -439,6 +440,76 @@ export default function Home() {
                 </div>
               </motion.div>
             ))}
+          </div>
+        </div>
+      </section>
+
+      {/* About Us — Mission, Vision & Agro Leadership Spotlight */}
+      <section className="py-20 sm:py-28 bg-white border-t border-emerald-100">
+        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+          <div className="text-center max-w-3xl mx-auto mb-14">
+            <span className="inline-flex items-center gap-1.5 px-3 py-1 rounded-full text-xs font-bold uppercase tracking-wider text-emerald-800 bg-emerald-50 border border-emerald-200 mb-3">
+              <Sparkles size={13} className="text-amber-500" />
+              <span>{t('about.title')}</span>
+            </span>
+            <h2 className="text-3xl sm:text-5xl font-extrabold tracking-tight text-[#03230c]">
+              {language === 'bn' ? 'আমাদের পরিচিতি, মিশন ও ভিশন' : 'Our Story, Mission & Vision'}
+            </h2>
+            <p className="text-slate-600 text-sm sm:text-base mt-4 font-normal max-w-2xl mx-auto leading-relaxed">
+              {t('about.heroDesc')}
+            </p>
+          </div>
+
+          <div className="grid grid-cols-1 lg:grid-cols-2 gap-8 mb-12">
+            {/* Mission Card */}
+            <div className="p-8 sm:p-10 rounded-3xl bg-gradient-to-br from-[#021d0a] to-[#043313] text-white border border-emerald-500/20 shadow-lg relative overflow-hidden flex flex-col justify-between">
+              <div>
+                <div className="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-emerald-500/20 text-emerald-300 text-xs font-bold uppercase tracking-wider mb-4 border border-emerald-400/30">
+                  <Target size={15} />
+                  <span>{t('about.missionTitle')}</span>
+                </div>
+                <h3 className="text-xl sm:text-2xl font-bold mb-3">
+                  {language === 'bn' ? 'বৈজ্ঞানিক পুষ্টির মাধ্যমে খামারির লাভ সর্বোচ্চকরণ' : 'Empowering Farmers with Precision Nutrition'}
+                </h3>
+                <p className="text-xs sm:text-sm text-slate-200 leading-relaxed mb-6 font-normal">
+                  {t('about.missionDesc')}
+                </p>
+              </div>
+              <div className="pt-4 border-t border-white/10 flex items-center justify-between text-xs text-emerald-400 font-semibold">
+                <span>{language === 'bn' ? 'FCR ১.৫ - ১.৬ লক্ষ্যমাত্রা' : 'Target FCR 1.5 - 1.6'}</span>
+                <span>{language === 'bn' ? '১০০% পরীক্ষিত ফর্মুলা' : '100% Tested Formula'}</span>
+              </div>
+            </div>
+
+            {/* Vision Card */}
+            <div className="p-8 sm:p-10 rounded-3xl bg-gradient-to-br from-[#1c1202] to-[#2d1e04] text-white border border-amber-500/20 shadow-lg relative overflow-hidden flex flex-col justify-between">
+              <div>
+                <div className="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-amber-500/20 text-amber-300 text-xs font-bold uppercase tracking-wider mb-4 border border-amber-400/30">
+                  <Award size={15} />
+                  <span>{t('about.visionTitle')}</span>
+                </div>
+                <h3 className="text-xl sm:text-2xl font-bold mb-3">
+                  {language === 'bn' ? 'বাংলাদেশের কৃষিশিল্পে আস্থার শীর্ষ প্রতীক' : 'The Benchmark for Agro Excellence in Bangladesh'}
+                </h3>
+                <p className="text-xs sm:text-sm text-slate-200 leading-relaxed mb-6 font-normal">
+                  {t('about.visionDesc')}
+                </p>
+              </div>
+              <div className="pt-4 border-t border-white/10 flex items-center justify-between text-xs text-amber-400 font-semibold">
+                <span>{language === 'bn' ? 'মাইকোটক্সিন মুক্ত সুরক্ষা' : 'Zero Toxin Biosecurity'}</span>
+                <span>{language === 'bn' ? 'টেকসই এগ্রো লিডারশিপ' : 'Sustainable Agro'}</span>
+              </div>
+            </div>
+          </div>
+
+          {/* Read Full About Us Link */}
+          <div className="text-center">
+            <Link
+              to="/about"
+              className="inline-flex items-center gap-2 px-8 py-3.5 rounded-full bg-[#03230c] hover:bg-emerald-950 text-white text-xs font-bold tracking-wide shadow-md hover:scale-[1.02] active:scale-95 transition-all"
+            >
+              <span>{language === 'bn' ? 'আমাদের সম্পর্কে বিস্তারিত জানুন →' : 'Read Our Full Story & Corporate Vision →'}</span>
+            </Link>
           </div>
         </div>
       </section>

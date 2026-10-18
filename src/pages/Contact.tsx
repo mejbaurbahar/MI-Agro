@@ -138,14 +138,14 @@ export default function Contact() {
                 </a>
 
                 <a
-                  href="https://m.me/61594281573717"
+                  href="https://www.facebook.com/messages/t/61594281573717"
                   target="_blank"
                   rel="noreferrer"
                   onClick={() => trackMetaContact('Facebook_Messenger_Contact_Page')}
-                  className="flex items-center justify-center gap-2.5 bg-blue-600 hover:bg-blue-500 text-white py-3 px-4 rounded-full font-bold text-xs transition-colors active:scale-95 shadow-sm"
+                  className="flex items-center justify-center gap-2.5 bg-[#1877F2] hover:bg-[#166fe5] text-white py-3 px-4 rounded-full font-bold text-xs transition-colors active:scale-95 shadow-sm"
                 >
                   <MessageSquare size={16} />
-                  <span>{t('contact.messenger')}</span>
+                  <span>{language === 'bn' ? 'ফেসবুকে মেসেজ দিন' : 'Chat via Facebook'}</span>
                 </a>
               </div>
             </div>

@@ -30,8 +30,15 @@ export default function CustomerEngagementWidget() {
     return () => clearTimeout(timer);
   }, [location.pathname, hasAutoPrompted, isDismissed]);
 
-  const handleMessengerClick = () => {
-    trackMetaContact('Facebook_Messenger', { path: location.pathname });
+  // Opens chat directly in Facebook (works for all users logged into facebook.com without separate messenger login)
+  const handleFacebookChatClick = () => {
+    trackMetaContact('Facebook_Messages_Web', { path: location.pathname });
+    window.open(`https://www.facebook.com/messages/t/${FB_PAGE_ID}`, '_blank', 'noopener,noreferrer');
+  };
+
+  // Opens directly in Messenger app or m.me
+  const handleMessengerAppClick = () => {
+    trackMetaContact('Facebook_Messenger_App', { path: location.pathname });
     window.open(`https://m.me/${FB_PAGE_ID}`, '_blank', 'noopener,noreferrer');
   };
 
@@ -100,18 +107,30 @@ export default function CustomerEngagementWidget() {
 
               {/* Action Buttons */}
               <div className="space-y-2">
-                {/* Facebook Messenger */}
-                <button
-                  onClick={handleMessengerClick}
-                  className="w-full flex items-center justify-center gap-2.5 bg-[#0084FF] hover:bg-[#0073e6] text-white py-2.5 px-4 rounded-2xl font-semibold text-xs shadow-sm transition-all hover:scale-[1.01]"
-                >
-                  <svg className="w-4 h-4 fill-current" viewBox="0 0 24 24">
-                    <path d="M12 2C6.477 2 2 6.145 2 11.258c0 2.914 1.455 5.518 3.735 7.152V22l3.447-1.892c.905.251 1.865.388 2.818.388 5.523 0 10-4.145 10-9.258C22 6.145 17.523 2 12 2zm1.002 12.443l-2.557-2.727-4.993 2.727 5.49-5.83 2.62 2.728 4.93-2.728-5.49 5.83z" />
-                  </svg>
-                  <span>
-                    {language === 'bn' ? 'ফেসবুক মেসেঞ্জারে চ্যাট করুন' : 'Chat on Facebook Messenger'}
-                  </span>
-                </button>
+                {/* Facebook Chat - Opens directly in Facebook using active login session */}
+                <div className="space-y-1">
+                  <button
+                    onClick={handleFacebookChatClick}
+                    className="w-full flex items-center justify-center gap-2.5 bg-[#1877F2] hover:bg-[#166fe5] text-white py-2.5 px-4 rounded-2xl font-bold text-xs shadow-sm transition-all hover:scale-[1.01]"
+                  >
+                    <svg className="w-4 h-4 fill-current shrink-0" viewBox="0 0 24 24">
+                      <path d="M24 12.073c0-6.627-5.373-12-12-12s-12 5.373-12 12c0 5.99 4.388 10.954 10.125 11.854v-8.385H7.078v-3.47h3.047V9.43c0-3.007 1.792-4.669 4.533-4.669 1.312 0 2.686.235 2.686.235v2.953H15.83c-1.491 0-1.956.925-1.956 1.874v2.25h3.328l-.532 3.47h-2.796v8.385C19.612 23.027 24 18.062 24 12.073z" />
+                    </svg>
+                    <span>
+                      {language === 'bn' ? 'ফেসবুক থেকে সরাসরি মেসেজ' : 'Chat via Facebook Login'}
+                    </span>
+                  </button>
+
+                  <div className="flex items-center justify-between px-1 text-[10px] text-slate-500">
+                    <span>{language === 'bn' ? 'লগইন করা ফেসবুক থেকে চ্যাট' : 'Uses active FB login'}</span>
+                    <button
+                      onClick={handleMessengerAppClick}
+                      className="text-blue-600 hover:underline font-medium"
+                    >
+                      {language === 'bn' ? 'মেসেঞ্জার অ্যাপে খুলুন' : 'Open in Messenger App'}
+                    </button>
+                  </div>
+                </div>
 
                 {/* WhatsApp */}
                 <button
